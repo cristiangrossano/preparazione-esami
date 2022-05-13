@@ -103,13 +103,17 @@ catch (ArithmeticException err) { out.println("non puoi usare numeri di un deter
 
 - Numero Immaginario
   ricoradare che con
+
   ```java
   .charAt(indice)
   ```
+
   si può controllare un determinato carattere di una stringa
+
   ```java
   Double.parseDouble(Stringa)
   ```
+
   si ha una conversione della stringa in un double, eccezioni possibili possono essere
 
 1. Null per la stringa

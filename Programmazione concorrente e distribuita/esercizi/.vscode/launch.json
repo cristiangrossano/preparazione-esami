@@ -1,0 +1,36 @@
+{
+    // Usare IntelliSense per informazioni sui possibili attributi.
+    // Al passaggio del mouse vengono visualizzate le descrizioni degli attributi esistenti.
+    // Per altre informazioni, visitare: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch esercizio",
+            "request": "launch",
+            "mainClass": "esercizio1.esercizio",
+            "projectName": "esercizi_a5cbe501"
+        },
+        {
+            "type": "java",
+            "name": "Launch CopiaFile",
+            "request": "launch",
+            "mainClass": "esercizio2.CopiaFile",
+            "projectName": "esercizi_a5cbe501",
+            "args" : "/Users/Utente/Desktop/File/pippo.txt.txt /Users/Utente/Desktop/File/pluto.txt.txt"
+        },
+        {
+            "type": "java",
+            "name": "Launch ListDir",
+            "request": "launch",
+            "mainClass": "esercizio3.ListDir",
+            "projectName": "esercizi_a5cbe501"
+        }
+    ]
+}

@@ -70,9 +70,13 @@ B = esce un numero dispari = {1, 3, 5}.
 A ∩ B = ∅.
 
 ### Probabilità classica
+
 Considerando lo spazio campionario Ω e supponiamo che gli eventi elementari siano equiparabili (stessa probabilità di verificarsi).
 La probabilità dell'evento A relativo a Ω è:
+
 ```
     P(A) =  #A
             #Ω  
 ```
+
+## Lezione 2
