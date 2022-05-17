@@ -310,9 +310,107 @@ Per ogni classe di interrupt si ha una **SRIA** che serve a memorizzare i valori
 Viene inviato un segnale via hardware.  
 Questo segnale importa l'**IC** della **PSW** che serve a comunicare al SO, le cause dell'interruzione.  
 I valori dei registri dei PC, SP, PSW relativi al programma P vengono salvati nella **SRIA**.
-> Vengono slavati i valori che avevano i vari registri, così una volta terminata l'interrupt si torna alla normale esecuzione
+> Vengono salvati i valori che avevano i vari registri, così una volta terminata l'interrupt si torna alla normale esecuzione
 
 I registri PC e PSW vengono quindi impostati in base a ciò che veniva trasmesso deel relativo interrupt vector.  
 L'interrupt handler può quindi far ripartire.
 
+**Cosa fa l'interrupt handler?**
 
+Quando vengono eseguite le primissime istruzioni dell'IH vengono salvate nella RAM le informazioni dei registri generali (quelli del programma in esecuzione prima dell'interrupt).  
+Con registri generali si intendono tutti quelli che non devono essere salvati via hardware.  
+**Una volta fatto questo valori del programma P sono stati salvati.**  
+Successivamente l'handler esegue il codice apposito per gestire l'interruzione.  
+Il codice sfrutta il valore dell'IC.  
+Terminate le sue operazioni **salta allo scheduler**, che selezionerà il programma P', dato che non è detto che **P = P'.**  
+
+**Cosa fa lo scheduler dopo che ha selezionato P'?**
+
+I valori dei registri generali erano stati salvati da qualche parte, vanno recuperati.  
+Vanno ripristinati anche tutti i registri di controllo, spesso l'architettura offre l'istruzione **IRET** che permette di recuperare tutti i registri in un colpo.  
+**A differenza del salvataggio, i registri di controllo possono essere ripristinati via software.**
+
+### DISPOSITIVI DI I/O e IMA
+
+**Come il processore interagisce con i dispoitivi.**  
+Tutti i dispositivi vanno visti come una coppia dispositivo/controllore.  
+Il SO interagisce solamente con i controllori ( solo in modaità kernel).  
+Il **controller** è una componente elettronica che communica con il processore (e le altre unità) **tramite bus**.  
+Il controller gestisce i dispositivi.  
+**Può gestire più dispositivi contemporaneamente.**  
+L'interfaccia tra CPU e controller viene usata dai componenti del SO. (**i driver**).  
+I'interfaccia contiene:  
+
+- porte i/p, dette anche registri di controllo
+   > usati dalla dalla CPU per communicare con il controller (dare/ricevere informazioni)
+
+- buffer
+   > serve a memorizzaare i dati durante le operazioni di I/O
+
+Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:  
+
+1. Porte di I/O gestite con istruzioni macchina
+
+  > le communicazioni sono di due tipi:
+  >
+  > dalle porte di I/O ai registri del processore e viceversa.
+  > Questre istruzioni devono essere **privilegiate**, per impedire che in modalità user si riesca ad accedere ai dispositivi.
+
+2. Memory Mapped I/O
+    > Ad ogni porta I/O viene assegnato un indirizzo di memoria, non servono istruzioni ad hoc.
+    > Gli indirizzi non sono visibili dai programmi che dovranno invocare il SO per fare le oerazioni di I/O.
+    >
+    > In questa soluzione i driver possono essere scritti in **C**.
+
+**Il modo con cui avvengono le communicazioni tra CPU e dispositivi non è univoco, cu sono 3 metodi diversi.**.  
+> Le prime due hanno dei problemi, sono obsolete, ma conoscerle aiuta nel comprendere il terzo metodo.
+
+**Soluzione 1 - Programmed I/O.**
+
+```java
+  for (i = 0; i < n; i++){
+    while(device_status_reg != READY){
+      //busy waiting
+    }
+    buffer = b[i]
+  }
+```
+
+Il driver del dispositivo tramite il **device status register** vede se il dispositivo è pronto ad eseguire una nuova operazione oppure no.  
+Questo stato è definito da dei BIT.  
+Il cidce mostra che quando il dispositivo è 'ready' allora nel buffer del dispositivo verranno trasferiti byte di b, **uno alla volta.**  
+
+**Il grande problema di questo metodo è che fino a quando il dispositivo è occupato il processore è inutilizzato. Non si sfruttano gli interrupt.**  
+
+Con **busy waiting** si intende il periodo di attesa in cui il processore viene utilizzato per aspettare.
+
+**Soluzione 2 - Interrupt Driven I/O.**  
+
+```java
+while(device_status_reg != READY){
+  // busy waiting solo all'inizio
+}
+buffer = b[0];
+c = 1;
+i = 1;
+scheduler() // P lascia la CPU, la riotterrà a operazione conclusa
+```
+
+> Nel motodo precedente il **busy waiting** c'era sempre, anche tra un Byte e l'altro (da b[i] a b[i + 1])  
+> Adesso c'è solo nella prima interazione, poi non è più presente.
+
+```java
+if(c==n){
+  unblock_user(); // il programma P può ripartire
+} else {
+  buffer = b[i] //chiedo al device il prossimo transfer ed attendo il prossimo interrupt
+  i = i + 1;
+  c = c + 1;
+}
+return_from_interrupt()
+```
+
+Questo è il codice eseguito dall'interrupt handler.  
+Quando il trasferimento di ogni byte viene controllato, il controllore manda un interrupt.  
+In questo momento ricominciano le iterazioni del handleer che tra il trasferimento di un byte e quello successivo permette di far andare avanti un programma.  
+Il processo è decisamente troppo macchinoso, per **n byte** ci sono **n interrupt**.  
