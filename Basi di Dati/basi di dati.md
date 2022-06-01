@@ -123,4 +123,63 @@ La rappresentazione dei dati in un **DBSM** opera su due livelli:
 - É possibile rappresentare l'assenza del valore per un attributo poichè non tutte le info sono sempre disponibili:
   - valore speciale -> **NULL** -> **valore sconosciuto**.
 
-**DOMINIO** -> insieme di 
+**DOMINIO** -> insieme di valori (anche infinito) che i dati possono assumere
+
+> valori nulli non appartengono al dominio
+
+**PRODOTTO CARTESIANO** -> insieme di oggetti (tuple) strutturati che hanno **K** componenti, tanti quanti sono i domini), dove il **K-Esimo** valore appartiene al **K-Esimo** dominio
+
+![prodotto cartesiano](https://cdn.discordapp.com/attachments/981502253796040744/981502297475514378/Schermata_del_2022-06-01_12-18-26.png)
+
+**Grado** -> Elementi presenti in una tupla (colonne della tabella), **k** domini = grado **k**.  
+**Cardinalità** -> Numero di tuple (righe della tabella).
+
+### LE CHIAVI
+
+**Vincolo di chiave**  
+La chiave di una relazione **è un insieme di attributi che distingue fra loro le tuple della relazione.**
+
+**Proprietà**
+Sia S uno schema relazionale:
+
+- Qualsiasi insieme di tuple sia contenuta in S, non devono esistere 2 tuple distinte di S che abbiano lo stesso valore -> **_Unicità_**
+- Nessun sottoinsime proprio di X degli attributi di S verifica la proprietà 1 -> **_Minimalità_**
+- **Non** può assumere valori nulli -> **_Vincolo di obbligatorietà_**
+
+| Matricola | Nome     | Cognome | DataN     | Anno Immatricolazione |
+| --------- | -------- | ------- | --------- | --------------------- |
+| 64655     | Marco    | Rossi   | 3/2/1988  | 2008                  |
+| 81999     | Anna     | Bianco  | 16/6/1989 | 2008                  |
+| 75222     | Giovanni | Gialli  | 4/5/1987  | 2007                  |
+
+L'attributo { Matricola } è univoco e minimale, **quindi è una chiave.**  
+L'insieme di attributi { Matricola, Nome } è univoco, ma non minimale (Matricola è univoco anche da solo), quindi è una **super chiave**.
+
+#### Chiavi Candidate
+
+```mermaid
+graph TD;
+Chiavi_Candidate --> Chiave_Primaria;
+Chiavi_Candidate --> Chiavi_Alternative;
+```
+
+- Una relazione può avere più di un insieme di X atributi che verificano le proprietà 1 e 2;
+- Una relazione ha sicuramente almeno una chiave;
+- Criteri di Scelta:
+  - Chiave candidata contenente il minor numero di attributi;
+  - Chiave candidata più frequentemente utilizzata nelle query, in modo da velocizzare il carico di lavoro.
+
+#### Chiavi Esterne
+
+Servono per modellare le associazioni (**non** aggiunge ulteriori informazioni), creano un legame tra attributi.
+
+![chiave esterna](https://cdn.discordapp.com/attachments/981502253796040744/981508185250746388/unknown.png)
+
+- Una relazione può contenere **più chiavi esterne** anche verso la stessa tabella;
+- Devono essere specificate nello schema della relazione;
+- Devono rispettare l'**integrità referenziale** -> correttezza violata da:
+  - Inserimenti e modifiche del valore della chiave esterna nella relazione referente;
+  - Cancellazioni e modifiche del valore della chiave nella relazione riferita:
+    - SQL mette a disposizione queste alternative:
+      - cancella o modifica tutti i noleggi che si riferiscono al cliente cancellato -> ON UPDATE / ON DELETE -> CASCADE
+      - Non consente la cancellazione o la modifica se ha ancora noleggi in corso -> ON UPDATE / ON DELETE -> RESTRICT
