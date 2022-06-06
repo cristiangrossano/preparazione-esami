@@ -183,3 +183,94 @@ Servono per modellare le associazioni (**non** aggiunge ulteriori informazioni),
     - SQL mette a disposizione queste alternative:
       - cancella o modifica tutti i noleggi che si riferiscono al cliente cancellato -> ON UPDATE / ON DELETE -> CASCADE
       - Non consente la cancellazione o la modifica se ha ancora noleggi in corso -> ON UPDATE / ON DELETE -> RESTRICT
+      - Esegue senza problemi l'inserimento e la cancellazione senza fare altro -> ON UPDATE / ON DELETE -> NO ACTION
+      - Consente la cancellazione o modifiche cambiando il codice cliente con un valore nullo o di default per mantenere noleggi -> ON UPDATE / ON DELETE -> SET NULL / SET DEFAULT
+- possono assumere valore nullo
+
+**ESEMPIO:**
+
+```SQL
+CREATE TABLE Autore (
+  Nome VARCHAR(50) NOT NULL,
+  Cognome VARCHAR (50) NOT NULL,
+  Data_Nascita DATE NOT NULL,
+  Nazionalità VARCHAR(50) NOT NULL,
+  PRIMARY KEY (Nome Cognome)
+);
+```
+
+```SQL
+CREATE TABLE Libro (
+  Titolo VARCHAR(50) NOT NULL,
+  Nome_Autore VARCHAR (50) NOT NULL,
+  Cognome_Autore VARCHAR (50) NOT NULL,
+  Lingua VARCHAR(20) NOT NULL,
+  FOREIGN KEY AutoreDelLibro (Nome_Autore, Cognome_Autore) REFERENCES Autore(Nome, Cognome)
+);
+```
+
+### VINCOLI DI INTEGRITA' E ASSERZIONI
+
+#### Vincoli di integrità
+
+Vincoli che esprimono condizioni di correttezza dei dati nelle tabelle, qualsiasi applicazione che accede deve riconoscere questi vincoli, in base alle informazioni di dominio;
+
+- Il **dominio degli attributi** è un vincolo -> Int, String, DataSet;
+- Vincoli di **obbligarietà di colonne** -> NOT NULL
+- Vincoli di **chiave** -> UNIQUE e PRIMARY KEY
+- Vincoli di **integrità referenziale** -> FOREIGN KEY
+
+Il linguaggio di query SQL mette a disposizione anche altri costrutti per la specifica di generici **vincoli di integrità**.
+
+- Nel comando **CREATE TABLE**, è possibile definire:
+  - Vincoli **CHECK** su colonna seguiti da condizione (anche con sub-query)
+    - Si definiscono alla definizione degli attributi.
+
+```SQL
+CREATE TABLE Video (
+tipo CHAR NOT NULL CHECK (tipo IN('d', 'v'))
+)
+```
+
+- Vincoli **CHECK** su relazione:
+  - Mettono in relazione più colonne o attributi;
+  - Si mettono come definizione a parte;
+
+**Cosa succede in presenza di valori nulli?**
+SQL usa una logica a 3 valori per valiutare le condizioni (TRUE - FALSE - UNKNOWN)
+E' possibile dare un nome ai vincoli (anche a quelli di default) in modo tale da essere inseriti o cancellati, facendo seguire la specifica del vincolo dalla parola **_CONSTRAINT_**.
+
+```SQL
+CREATE TABLE Video(
+  colloc DECIMAL(4) CONSTRAINT PKey PRIMARY KEY,
+  titolo VARCHAR(30) CONSTRAINT Tnn NOT NULL,
+  regista VARCHAR(20) CONSTRAINT Rnn NOT NULL,
+  tipo CHAR CONSTRAINT Snn NOT NULL DEFAULT 'd' CONSTRAINT Tok CHECK (tipo IN('d','v')),
+  CONSTRAINT FK FOREIGN KEY (titolo, regista));
+
+  ALTER TABLE Video DROP CONSTRAINT Tok;
+```
+
+Possibilità di definire **ASSERZIONI**.  
+Sconsigliabile esprimere tramite vincoli **CHECK** condizioni troppo complesse, poichè altrimenti ci sarà una scarsa comprensibilità dello schema.
+Non è possibile, inoltre, specificare tramite vincoli **CHECK** condizioni che richiedono di esaminare tuole di relazioni diverse:
+
+- Sono elementi dello schema, manipolati da comandi **DDL**;
+- Servono per esprimere **vincoli d'integrità** che coinvolgono **tuple o relazioni**.
+
+#### Sintassi
+
+```SQL
+CREATE ASSERTION <nome asserzione>
+CHECK (<condizione>)
+```
+
+Esempio:
+
+Uno stesso video non può essere noleggiato contemporaneamente da due clienti.  
+Un video non può essere noleggiato prima dell'uscita del film che lo contiene.
+
+```SQL
+CREATE ASSERTION DateOk
+CHECK (NOT EXISTS SELECT * FROM Noleggio NATURAL JOIN Video NATURAL JOIN Film WHERE EXTRACT (YEAR FROM DataNol) < anno)
+```
