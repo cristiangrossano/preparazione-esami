@@ -359,6 +359,8 @@ CREATE TABLE Noleggio(
   - **SET NULL**;
   - **SET DEFAULT**.
 
+---
+
 #### DDL: gestione delle relazioni
 
 - **CANCELLAZIONE:**
@@ -374,3 +376,101 @@ CREATE TABLE Noleggio(
     - eliminazione colonna ➔ DROP < nome colonna >
     - definizione vincolo integrità ➔ **ADD COSTRAINT** [nomevincolo]< specifica vincolo >
     - eliminazione vincolo integrità esistente ➔ **DROP CONSTRAIN** < nome vincolo >
+
+---
+
+#### DML: linguaggio di query
+
+- operazioni di ricerca e interrogazioni
+- fanno parte del **DML**
+
+##### Formato base:
+
+**clausola di protezione**:
+**SELECT** < tabella. colonna dalla quale voglio ricevere le informazioni>
+
+> l'asterisco prende tutte le colonne (\*)
+
+- **DISTINCT** se sono interessato a eliminare le tuple duplicate da un risultato;
+- **CONCAT()** per concatenare le stringhe in una unica colonna.
+
+**clausola FROM**
+**FROM** < tabella o relazioni oggetto della ricerca >
+
+**clausola di qualificazione**
+**WHERE** < condizioni particolari > uso di espressioni booleane AND e OR
+
+- la valutazione del predicato si fa tupla per tupla;
+- questa clausola è opzionale;
+- valori stringa sono inclusi in apici ('').
+
+##### Operatori particolari con WHERE
+
+- operatore **BETWEEN** ➔ non aggiunge potere espressivo al linguaggio, utile per rendere più evidente l'espressione cercata (range di valore, ha senso con operatori di tipo numerico);
+- operatore **NOT BETWEEN** ➔ contrario di **BETWEEN** che segue lo stesso ragionamento;
+- operatore **IN** ➔ analogo all'operatore di appartnenza insiemistica (appartiene), sostituisce l'**OR**;
+  - esempio: **WHERE genere IN ('horror', 'fantascienza')** sostituisce **WHERE genere 'horror OR genere 'fantascienza'**.
+- operatore NOT IN ➔ un elemento che non appartiene all'insieme;
+- operatore **LIKE** ➔ verifica che un attributo di tipo stringa segua particolari condizioni (PATTERN MATCHING)
+  - esempio: WHERE titolo LIKE '\_\_%d' (trova i titoli che hanno la 'd' come terza lettera):
+    - \_\_ ➔ rappresenta un carattere;
+    - % ➔rappresenta una sequenza qualsiasi di **n** caratteri (anche vuota).
+
+##### Espressioni
+
+Si possono usare:
+
+1. nella clausola di proiezione (SELECT)
+2. nella clausola di qualificazione (WHERE)
+
+- posso mettere anche degli operatori (+ - / \*) con espressioni:
+  - es: SELECT codiceFiscale, stipendio + premi.
+- posso rinominare la colonna contenente l'espressione con la parola chiave **AS**:
+  - es. SELECT stipendioAnnuale/12 AS stipendioMensile.
+
+##### Ordinamento del risultato
+
+In genere l'ordine delle tuple risultato dell'interrogazione è determinato dal sistema (dipende dalla strategia utilizzata dal sistema).
+
+E' possibile specificare un ordinamento diverso aggiungendolo alla fine dell'interrogazione la clausola **ORDER BY**, seguita da una lista di nomi di colonnne:
+
+- **ASC** ➔ ordinamento crescente (default);
+- **DESC** ➔ ordinamento decrescente.
+
+**Gli attributi di ordinamento devono comparire nella clausola di SELECT** (anche implicitamente ➔ SELCT \*).
+
+#### DML: Istruzioni di aggiornamento
+
+Modifiche all'istanza della base di dati sono **molto frequenti**.
+Tre comandi forniti per la manipolazione:
+
+- **Insert** ➔ inserimento di tuple
+  1.  **una sola tupla** ➔ assegnazione di un **valore costante** ad ogni attributo;
+  2.  **più tuple** ➔ lette da altre tabelle mediante una **SELECT**.
+
+##### Sintassi
+
+```SQL
+INSERT INTO <nomeTabella> VALUES ('')
+
+INSERT INTO <nomeTabella>
+SELECT <attributi>
+FROM <nomeTabella>
+WHERE <condizione> o SUBQUERY
+```
+
+**NOTA BENE**
+La query non può contenere la clausola ORDER BY, poichè il DBMS inserisce le tuple con un proprio ordine ottimizzato.
+
+- **UPDATE** ➔ modifica di tuple esistenti
+
+##### Sintassi
+
+**UPDATE** < nome tabella >
+**SET C1** {nuovo valore}
+
+**UPDATE** < nome tabella >
+**SET C1** {nuovo valore}
+**WHERE** < condizione > o **SUBQUERY**
+
+- **DELETE** ➔ cancellazione di tuple, mantenendo lo schema
