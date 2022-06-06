@@ -384,7 +384,7 @@ CREATE TABLE Noleggio(
 - operazioni di ricerca e interrogazioni
 - fanno parte del **DML**
 
-##### Formato base:
+##### Formato base
 
 **clausola di protezione**:
 **SELECT** < tabella. colonna dalla quale voglio ricevere le informazioni>
@@ -552,3 +552,63 @@ GROUP BY codCli;
 ```
 
 - Quando le colonne sono calcolate nella Query di definizione devono andare a definire il nome che avranno le viste.
+
+**_AGGIORNAMENTO_**
+
+- L'esecuzione di un'operazione di aggiornamento su vista **deve poter essere propagata sulle relazione su cui la vista è definita**.
+
+> **RISPETTARE I VINCOLI**
+> Sono permessi solo operazioni di aggiornamento che riesco a mappare in modo univoco in analoghe relazioni su cui la vista è definita.
+
+Molti DBMS consentono operazioni di aggiornamento solo su viste definite **su una singola relazione** e ponendo delle restrizione sulla query di formulazione (ad esempio non deve contenere **GROUP BY, JOIN etc.**
+
+#### CHECK OPTIONS
+
+Per assicurare anche le tuple aggiornate tramite una vista siano accettate solo se verificano la condizione nell'interrogazione di defnizione della vista.
+
+```SQL
+CREATE VIEW <nome vista> [(<lista nomi colonne>)]
+AS <interrogazione>
+[WITH[{LOCAL | CASCADED}] CHECK OPTION]
+```
+
+Vengono definite solo su aggiornamenti di viste create in altre viste (**v1** e **v2**).
+
+- **LOCAL** ➔ un aggiornamento in v2 deve soddisfare solo la condizione in v2;
+- **CASCADE** ➔ un aggiornamenti in v2 deve soddisfare sia la condizione di v1 che la condizione di v2
+
+#### Esempi
+
+Se abbiamo Nol3gg definita come:
+
+```SQL
+CREATE VIEW Nol3gg AS SELECT codCli, dataNol, colloc
+FROM Noleggio
+WHERE dataRest IS NULL AND (CURRENT_DAETE - dataNol) DAY > INTERVAL '3' DAY;
+WITH [LOCAL] CHECK OPTION;
+```
+
+L'inserimento di tuple che non soddisfano l'interrogazione di defnizione della vista, come (1128, CURRENT_DATE, 6635), non è permesso.
+
+```SQL
+CREATE VIEW PRODOTTI_TAGLIA_MEDIA_O_GRANDE AS
+SELECT CodP, NomeP, Taglia
+FROM P
+WHERE Taglia >= 42 WITH CHECK OPTION;
+```
+
+**Check option** poichè il controllo è definito su una sola vista potrò fare l'aggiornamento solo se la taglia è >= 42.
+
+```SQL
+CREATE VIEW PRODOTTI_TAGLIA_MEDIA AS
+SELECT CodP, NomeP, Taglia
+FROM PRODOTTI_TAGLIA_MEDIA_O_GRANDE
+WHERE Taglia <= 46 WITH CASCADED CHECK OPTION;
+```
+
+Viene creata una vista nella vista precedente con taglie comprese tra 42 e 46:
+
+- con **WITH CASCADE CHECK OPTION**
+  - l'aggiornamento deve soddisfare non solo taglia <= 46 ma anche taglia >= 42
+- con **WITH LOCAL CHECK OPTION**
+  - l'aggiornamento deve soddisfare solo la condizione locale taglia <= 46
