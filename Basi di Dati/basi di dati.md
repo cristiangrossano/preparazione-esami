@@ -159,8 +159,8 @@ L'insieme di attributi { Matricola, Nome } è univoco, ma non minimale (Matricol
 
 ```mermaid
 graph TD;
-Chiavi_Candidate -➔ Chiave_Primaria;
-Chiavi_Candidate -➔ Chiavi_Alternative;
+Chiavi_Candidate --> Chiave_Primaria;
+Chiavi_Candidate --> Chiavi_Alternative;
 ```
 
 - Una relazione può avere più di un insieme di X atributi che verificano le proprietà 1 e 2;
