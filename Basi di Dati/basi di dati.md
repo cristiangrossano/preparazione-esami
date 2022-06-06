@@ -444,11 +444,11 @@ E' possibile specificare un ordinamento diverso aggiungendolo alla fine dell'int
 Modifiche all'istanza della base di dati sono **molto frequenti**.
 Tre comandi forniti per la manipolazione:
 
-- **Insert** ➔ inserimento di tuple
+- **INSERT** ➔ inserimento di tuple
   1. **una sola tupla** ➔ assegnazione di un **valore costante** ad ogni attributo;
   2. **più tuple** ➔ lette da altre tabelle mediante una **SELECT**.
 
-##### Sintassi
+##### Sintassi Insert
 
 ```SQL
 INSERT INTO <nomeTabella> VALUES ('')
@@ -464,7 +464,7 @@ La query non può contenere la clausola ORDER BY, poichè il DBMS inserisce le t
 
 - **UPDATE** ➔ modifica di tuple esistenti
 
-##### Sintassi
+##### Sintassi Update
 
 **UPDATE** < nome tabella >
 **SET C1** {nuovo valore}
@@ -475,7 +475,7 @@ La query non può contenere la clausola ORDER BY, poichè il DBMS inserisce le t
 
 - **DELETE** ➔ cancellazione di tuple, mantenendo lo schema
 
-##### Sintassi
+##### Sintassi Delete
 
 **DELETE FROM** < nome tabella >
 
@@ -577,7 +577,7 @@ Vengono definite solo su aggiornamenti di viste create in altre viste (**v1** e 
 - **LOCAL** ➔ un aggiornamento in v2 deve soddisfare solo la condizione in v2;
 - **CASCADE** ➔ un aggiornamenti in v2 deve soddisfare sia la condizione di v1 che la condizione di v2
 
-#### Esempi
+#### Esempio
 
 Se abbiamo Nol3gg definita come:
 
@@ -674,3 +674,140 @@ FROM Video
 NATURAL LEFT OUTER JOIN Noleggio
 WHERE regista = 'Tim burton'
 ```
+
+#### FUNZIONI DI GRUPPO
+
+Nelle espressioni della **clausola di proiezione (SELCT)** possiamo avere anche espressioni che calcolano valori a partire da **insieme** di tuple (anche contemporaneamente), come ad esempio:
+
+- media stipendi
+- massimo voto conseguito
+
+Operano su **insieme** di valori ➔ producono come risultato un **unico** valore (aggregato)
+
+Possono essere utilizzate a loro volta n espressioni aritmetiche:  
+esempio:  
+SUM(valutaz)/COUNT(+).  
+Si può rinominare la colonna virtuale creata dal risultato con la parola chiave AS.
+
+##### Principali
+
+- MAX(): determina il massimo in un insieme di valori;
+- MIN(): determina il minimo in un insieme di valori;
+- SUM(): esegue la somma dei valori in un insieme (solo valori numerici);
+- AVG(): esegue la media aritmetica di un insieme di valori (solo valori numerici);
+- COUNT(): determina la cardinalità di un insieme:
+  - come argomento ➔ conta il numero di tuple.
+
+```SQL
+SELECT MIN(valutaz), AVG(valutaz), MAX(valutaz)
+FROM Film
+WHERE genere = 'drammatico';
+```
+
+Tutte le funzioni di gruppo possono essere usate con il qualificatore **DISTINCT**.
+
+- eventuali valori duplicati **sono eliminati** prima di applicare la funzione;
+- significativa solo per: SUM, AVG e COUNT.
+
+I **valori null** vengono **eliminati** prima del calcolo della funzione di gruppo.
+
+```SQL
+SELECT COUNT(DISTINCT Reddito) FROM Persone;
+```
+
+I vincoli sono:
+
+- non possono mettere nome di attributo nella proiezione se è presente uuna funzione di gtuppo se non espresse su partizioni delle relazioni;
+- non possono mettere i gruppi di funzioni nella clausola WHERE se non con sotto interrogazioni;
+- gli attributi univocamente determinati da GROUP BY possono essere reinseriti nella clausola senza problemi.
+
+##### RAGGRUPPAMENTO
+
+Le funzioni di gruppo possono essere usate su **partizioni nelle relazioni**.
+
+- Tuple che hanno **valore uguale** per un determinato attributo.
+
+Le colonne da usare nel partizionamento sono specificate nella clausola **GROUP BY**.
+Per ogni regista vogliamo determinare quanti suoi film sono presenti nel catalogo, di quanti generi diversi e la valutazione minima, media e massima di tali film:
+
+```SQL
+SELECT regista
+COUNT(*) AS numF,
+COUNT (DISTINCT genere) AS numeroG,
+MIN(valutaz) AS minV,
+AVG(valutaz) AS avgV,
+MAX(valutaz) AS maxV,
+FROM Film
+GROUP BY Regista;
+```
+
+Si può escludere alcuni gruppi dal computo delle interrogazioni
+
+- condizione definita su valori aggregati;
+- **non** è possibile usare la clausola **WHERE**.
+
+La clausola **HAVING** permette di specificare condizioni su valori aggregati (coinvolgono funzioni di gruppo).  
+Per ogni regista **che ha girato almeno due film** prima del 2000, determinare quanti sono tali film, di quanti generi diversi e la valutazione minima, media, massima fi tali film:
+
+```SQL
+SELECT Regista,
+COUNT(DISTINCT Genere) AS numG,
+MIN (valutazione) AS minV,
+AVG (valutazione) AS avgV,
+MAX (valutazione) AS maxV,
+FROM Film,
+WHERE anno < 2000
+GROUP BY Regista
+HAVING COUNT(*) >= 2;
+```
+
+#### OPERAZIONI INSIEMISTICHE
+
+La clausola SELECT da sola non consente di eseguire operazioni su insiemi.
+
+##### UNIONE
+
+- A e B ricavate dalla clausola SELECT;
+- A UNION B ➔ genera tabella dove ho le tuple di A unite a quelle di B;
+- Il nome del risultato **tabella unione** è dato dall'attributo A, ovvero quello utilizzato nella prima query di selezione (basta rinominare la prima query eseguita con AS).
+
+###### Limiti Unione
+
+- stesso numero di attributi;
+- stesso dominio di definizione;
+- tiene conto di una **notazione posizionale**;
+- rimuove duplicati;
+- **UNION ALL** ➔ non elimina i duplicati.
+
+##### INTERSEZIONE
+
+A **INTERSECT** B ➔ genera tabella dove ho le tuple restituite sia di A che di B.
+
+###### Limiti Intersect
+
+- stesso numero di attributi;
+- stesso dominio di definizione;
+- tiene conto di una **notazione posizionale**.
+
+##### DIFFERENZA
+
+A **EXCEPT/MINUS** B ➔ Genera tabella dove tolgo da A le tuple restituite da B.  
+Trovare il codice dei clienti che non hanno noleggiato film di Tim Burton:
+
+```SQL
+SELECT codCli
+FROM Cliente
+EXCEPT
+SELECT codCli,
+FROM Noleggio NATURAL JOIN Video
+WHERE regista = 'tim burton'
+```
+
+**NOTA BENE**  
+La stessa query può essere eseguita con **NOT IN** e una **SUBQUERY**
+
+###### LIMITI DIFFERENZA
+
+- stesso numero di attributi;
+- stesso dominio di definizione;
+- tiene conto di una **notazione posizionale**.
