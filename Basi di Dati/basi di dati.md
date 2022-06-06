@@ -651,4 +651,26 @@ JOIN ALTERNATIVI
 
 ALIAS di relazioni
 
-OUTER JOIN
+###### **OUTER JOIN**
+
+**Usato quando la relativa tuola di una tabella non ha il suo corrispondente nell'altra**.
+
+> **ESEMPIO**
+> video di tim burton che sta nella tabella VIDEO, non è stato ancora noleggiato e quindi non è presente nella tabella NOLEGGIO
+
+Aggiunge al risultato di join le tuple di T o S (o entrambi) che nonn hanno partecipato alla join (non avenfo corrispondenti), completandole con null
+
+T _OUTER JOIN_ S
+
+- **FULL** ➔ sia le tuple di T che di S vwngono completate ed inserite nel risultato;
+- **LEFT** ➔ le tuple di T che non partecipano vengono completate ed inserite nel risultato;
+- **RIGHT** ➔ le tuple di S che non partecipano vengono completate ed inserite nel risultato.
+
+Per ogni video contenente un film di Tim Burton vogliamo visualizzare la sua collocazione, il titolo ed i codici dei clienti che l'hanno **eventualmente** noleggiato:
+
+```SQL
+SELECT colloc, titolo, codCli
+FROM Video
+NATURAL LEFT OUTER JOIN Noleggio
+WHERE regista = 'Tim burton'
+```
