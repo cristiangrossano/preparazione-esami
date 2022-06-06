@@ -612,3 +612,43 @@ Viene creata una vista nella vista precedente con taglie comprese tra 42 e 46:
   - l'aggiornamento deve soddisfare non solo taglia <= 46 ma anche taglia >= 42
 - con **WITH LOCAL CHECK OPTION**
   - l'aggiornamento deve soddisfare solo la condizione locale taglia <= 46
+
+#### QUERY CON PIU TABELLE NELLA CLAUSOLA FROM
+
+##### Operazione di JOIN
+
+- il Join di due relazioni A e B serve per generare tutte le coppie formate da una tuola di A r una tupla di B "Legate semanticamente";
+- consente di attraversare le relazione rappresentate mediante le **chiavi esterne**;
+- l'argomento delle relazioni (tabelle) va nella clausola **FROM**
+  - il DBMS fa il prodotto cartesiano di queste tabelle
+  - a questo prodotto risultante è applicata una selezione in base al predicato **JOIN** nella clausola **WHERE**;
+
+Trovare il **nome dei corsi** e il **cognome del docente** che li tiene:
+
+|  idC  |   corso    | CFU | idDoc |
+| :---: | :--------: | :-: | :---: |
+| 53688 | Topologia2 |  6  |  720  |
+| 53689 |  Storia1   | 12  |  414  |
+| 53666 |  Storia2   | 18  |  414  |
+
+| matr | cogn  |  login   |
+| :--: | :---: | :------: |
+| 710  | Jones | jones@cs |
+| 414  | Smith | smith@ee |
+| 720  | Evams | evams@ee |
+
+```SQL
+SELECT corso, cognome FROM Corso, DOcente
+WHERE Corso.idDoc = Docente.matr;
+```
+
+Sono operazioni costose, si deve quindi cercare di farlo su tabelle di piccole dimensioni.
+JOIN ALTERNATIVI
+
+- **JOIN ON** direttamente nella clausola FROM
+- **JOIN USING** (colonne comune che hanno stesso nome) - direttamente in FROM
+- **JOIN NATURAL** (rischioso - si usa solo quando abbiamo una colonna con lo stesso nome)
+
+ALIAS di relazioni
+
+OUTER JOIN
