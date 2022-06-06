@@ -811,3 +811,120 @@ La stessa query può essere eseguita con **NOT IN** e una **SUBQUERY**
 - stesso numero di attributi;
 - stesso dominio di definizione;
 - tiene conto di una **notazione posizionale**.
+
+##### SOTTOINTERROGAZIONI (SUB QUERY)
+
+Possibilità di annidare interrogazioni SQL in altre interrogazioni SQL ➔ istruzioni SELECT contenuta all'interno di un'altra interrogazione:
+
+E' possibile introdurre **sotto-interrogazioni** in:
+
+- un predicato nella clausola WHERE, usata per:
+  - determinare uno o più valori
+
+### Che cos’è un DBMS e quali servizi offre?\*\*
+
+Un DBMS, acronimo di Database Management System è un sistema creato per consentire la creazione, la manipolazione e l’interrogazione efficiente di database.
+Offre servizi di manipolazione e di ricerca dei dati presenti all’interno di un database insieme a funzionalità di creazione, eliminazione e aggiornamento di strutture dati.
+
+**Architettura a 3 livelli di un DBMS**  
+I moderni DBMS seguono l’impostazione concettuale dell’architettura a 3 livelli; i dati vengono
+descritti secondo 3 diversi livelli di astrazione: **il livello esterno, il livello logico ed il livello interno.**
+
+- Il livello esterno rappresenta ciò che l’utente vede del database, o meglio ciò che gli è concesso vedere; in generale esistono tanti schemi esterni quante sono le “classi” di utenti che hanno differenti esigenze/diritti di accesso alla base di dati;
+- Il livello logico rappresenta la visione integrale del database, indipendentemente dalle tecniche di memorizzazione dei dati. Naturalmente esiste un solo schema logico per ogni database;
+- Il livello interno coincide con la rappresentazione fisica del database nel computer.
+
+---
+
+### Indipendenza logica e fisica in un DBMS
+
+L’architettura a 3 livelli dei database realizza meccanismi di astrazione dei dati e ne assicura l’indipedenza: i livelli “superiori” dell’architettura non sono influenzati (in certi limiti) da ciò che
+succede nei livelli a loro inferiori. Si identificano due livelli: **indipendenza logica** ed **indipedenza fisica**
+
+- Con indipendenza logica dei dati si fa riferimento alla capacità dello schema esterno di non essere influenzato dai cambiamenti apportati allo schema logico. Aggiungere un campo ad una certa tabella non avrà alcun effetto sulle viste.
+- Con indipendenza fisica dei dati si fa riferimento alla capacità dello schema esterno di non essere influenzato dai cambiamenti apportati allo schema interno. _Cambiare il dispositivo di memorizzazione nel quale è situata la tabella non comporterà nessun cambiamento allo schema logic (e di conseguenza nemmeno agli schemi esterni), rendendo di fatto il cambiamento trasparente agli utenti_.
+
+---
+
+### Come il DBMS gestisce i valori nulli
+
+In un DBMS il valore null indica l’assenza di informazione, non viene distinto se l’informazione
+manca perché è sconosciuta o perché non esiste.
+Il DBMS utilizza una logica a tre valori per valutare le condizioni e gestire i valori nulli (TRUE-FALSE-
+UNKNOWN). Una tupla per cui il valore di verità è ? non viene restituita dall’interrogazione.
+Il predicato IS NULL applicato ad un attributo restituisce TRUE se la tupla ha valore nullo per
+l’attributo.
+Il predicato IS NOT NULL applicato ad un attributo restituisce TRUE se la tupla ha valore non nullo
+per l’attributo.
+
+Illustrare il modello relazionale e spiegarne i vantaggi
+Il modello relazionale è uno schema logico in cui la base di dati è vista come un insieme di tabelle
+su cui possono essere eseguite delle operazioni. Il suo nome deriva dalla relazione tra che esiste
+tra insiemi ed oggetti. Si basa su due concetti di base: relazione e tabella. Vantaggi:
+ Favorisce l’indipendenza fisica dei dati
+ Permette di rappresentare solamente ciò che è rilevante per l’applicazione
+ Tutta l’informazione è contenuta nei valori ed è quindi relativamente semplice da
+trasferire.
+Caratteristiche linguaggio SQL
+SQL è un linguaggio Set-Oriented, orientato agli insiemi. Gli operatori operano su relazioni e il
+risultato è sempre una relazione.
+è un linguaggio per DBMS che racchiude al suo interno le funzionalità di DML e di DDL
+è un linguaggio dichiarativo: non specifica le operazioni svolte per raggiungere un certo risultato
+è relazionalmente completo: ogni espressione dell’algebra relazionale è traducibile in SQL
+PRINCIPALI FUNZIONALITA’ DDL, DML E SDL
+DDL è un’abbreviazione di Data Definition Language, viene utilizzato per definire strutture di dati;
+principali funzionalità:
+ CREATE permette di creare il database ed i suoi oggetti (tabelle, viste)
+ ALTER permette di modificare la struttura del database esistente
+ DROP permette di eliminare gli oggetti dal database
+ TRUNCATE permette di rimuovere tutti i record di una tabella, inclusi gli spazi allocati per i
+record
+DML è un’abbreviazione di Data Manipulation Language, si occupa della manipolazione dei dati;
+viene utilizzato per archiviare, modificare, aggiornare ed eliminare oggetti nel database; principali
+funzionalità:
+ SELECT permette di recuperare i dati da un database
+ INSERT permette di inserire i dati in una tabella
+ UPDATE permette di aggiornare dati già esistenti in una tabella
+ DELETE permette di eliminare i record da una tabella del database
+SDL è un’abbreviazione per Simple Mediadirect Layer, si tratta di un linguaggio che permette di
+definire lo schema fisico del DB
+DEFINIZIONE DI CHIAVE E DI CHIAVE ESTERNA
+Una chiave è un campo o un insieme di campi utilizzata per recuperare ed ordinare le righe in una
+tabella in base a specifici requisiti, viene spesso utilizzata per definire collegamenti tra le diverse
+tabella di un DB; una tabella per essere definita tale deve rispettare delle proprietà: Univocità,
+obbligatorietà e minimalità.
+Una chiave esterna è una colonna (o un gruppo di colonne) contenente i valori relativi alla chiave
+primaria di un’altra tabella. Le chiavi esterne vengono utilizzate per unire le tabelle.
+
+SPIEGARE CHE COSA SONO LE VISTE E A COSA SERVONO
+
+Le viste sono un elemento utilizzato dalla maggior parte dei DBMS, come suggerisce il nome si
+tratta di modi diversi di vedere i dati; una vista è rappresentata da una query il cui risultato può
+essere utilizzato come se fosse una tabella.
+Il contenuto delle viste non viene salvato in memoria, ogni vista viene creata virtualmente in
+runtime ogni volta che questa viene interrogata.
+Comando creazione: CREATE VIEW AS
+Comando cancellazione: DROP VIEW
+La CHECK OPTION, invece, è una clausola che fa in modo che le tuple aggiornate all’interno di una
+vista vengano accettate solamente nel caso in cui queste rispettino le condizioni contenute
+nell’interrogazione di definizione della vista.
+SPIEGARE LE TRE SOLUZIONI PER SVILUPPARE UN’APPLICAZIONE CHE SI INTERFACCIA AD UNA
+BASE DI DATI, ILLUSTRANDONE PREGI E DIFETTI
+Ci sono due diverse strade che possono percorrere: Client side e Server Side.
+La prima permette di integrare SQL ad un linguaggio di programmazione già esistente, prende il
+nome di Client Side perché il codice viene eseguito in un ambiente diverso dal DBMS. L’approccio
+Client Side offre due soluzioni:
+La prima riguarda l’utilizzo librerie di funzioni, dette API. Queste definiscono l’interfaccia di
+comunicazione tra il DBMS ed il linguaggio di programmazione.
+Vantaggi: portabilità garantita dai driver, semplicità e flessibilità
+Svantaggi: diminuzione delle performance e difficoltà nella programmazione
+La seconda consiste nel SQL integrato: i comandi SQL vengono utilizzati direttamente all’interno
+del linguaggio di programmazione.
+Vantaggi: programmazione più semplice rispetto alla soluzione precedente
+Svantaggi: la compilazione del codice richiede la presenza di un precompilatore che sostituisce i
+comandi SQL in chiamate CLI al DBMS; ciò diminuisce le performance.
+La terza e ultima soluzione è di tipo Server Side e riguarda le estensioni procedurali: linguaggi di
+programmazione che funzionano sui DBMS.
+Vantaggi: rendono più facili le operazioni di sviluppo e di esecuzione delle app, garantiscono una
+buona performance, sono molto utili per sistemi DATA INTENSIVE
+Svantaggi: poca espressività e poca portabilità
