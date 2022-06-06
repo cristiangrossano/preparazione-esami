@@ -827,9 +827,9 @@ E' possibile inserire sotto interrogazioni
   - Determinare uno o più valori da usare come valori di confronto in un predicato dell’interrogazione esterna;
   - Esprimere operazioni che necessitano di quantificatori universali\esistenziali (“per ogni” ed “esiste”).
 
-Esistono 3 tipi:
+##### Esistono 3 tipi
 
-- Subquery scalare è un comando **SELECT** che restituisce un solo valore
+▷ Subquery scalare è un comando **SELECT** che restituisce un solo valore
 
 ```SQL
 SELECT Max(valutazione) FROM film;
@@ -854,15 +854,17 @@ WHERE genere = 'drammatico'
 > Se nessuna tupla verifica la sotto-interrogaziione, viene restituito il valore null;
 > Se restituisce più di un valore si genera un errore a run-time.
 
-- Subquery di colonna ➔ è un comando SELECT che restituisce una colonna
+---
+
+▷ Subquery di colonna ➔ è un comando SELECT che restituisce una colonna
 
 ```SQL
 SELECT valutazione FROM film;
 ```
 
-###### Sintassi:
+###### Sintassi operatori
 
-- operatore di confronto (**ANI | ALL**) sottoQuery
+- operatore di confronto (**ANY | ALL**) sottoQuery
   - **ANY** ➔ è vero se almeno uno dei valori restituiti da sottoQuery soddisfa (corrisponde all'OR logico)
     - = ANY ➔ corrisponde a incluso (IN)
     - <> ANY ➔ corrisponde a non incluso (NOT IN)
@@ -884,7 +886,46 @@ Nome e reddito dei padri di persone che guadagnano più di 20:
   - nome delle persone che guadagnano pià di 20 (Q1)
   - nome e reddito dei padri di persone in Q1
 
+```SQL
+SELECT Nome
+FROM Persona
+WHERE reddito > 20;
 
+SELECT Padre, Reddito
+FROM Paternita JOIN Persona ON (Padre = Nome)
+WHERE Figlio = ANY (SELECT Nome FROM Persona
+WHERE reddito > 20);
+```
+
+---
+
+▷ Subquery di tabella ➔ più generale è un comando SELECT che restituisce una tabella con **più di un attributo/colonna**
+
+```SQL
+SELECT Titolo FROM film;
+```
+
+**Sintassi**:
+
+- nel predicato di confronto è necessario usare un **Costruttore di Tupla** ➔ definisce una struttura temporanea di Tupla
+  - si elencano gli attributi che ne fanno parte tra () ➔ (nomeAttributo, NomeAttributo2, ...).
+
+**Esempio**
+
+- Viaggio (CodV, Partneza, Arrivo, oraPartenza, oraArrivo);
+- Trovare le coppie luogo di partenza e luogo di arrivo per cui nessun viaggio dura più di due ore.
+
+```SQL
+SELECT Partenza, Arrivo
+FROM Viaggio
+WHERE (Partenza, Arrivo) NOT IN
+(SELECT Partenza, Arrivo
+FROM Viaggio
+WHERE (oraArrivo - oraPartenza) > 2);
+```
+
+- un predicato nella clausola **having**
+  - confronto avverrà con funzioni di gruppo, la sintassi non cambia.
 
 ---
 
