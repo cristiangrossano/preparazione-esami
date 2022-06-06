@@ -445,8 +445,8 @@ Modifiche all'istanza della base di dati sono **molto frequenti**.
 Tre comandi forniti per la manipolazione:
 
 - **Insert** ➔ inserimento di tuple
-  1.  **una sola tupla** ➔ assegnazione di un **valore costante** ad ogni attributo;
-  2.  **più tuple** ➔ lette da altre tabelle mediante una **SELECT**.
+  1. **una sola tupla** ➔ assegnazione di un **valore costante** ad ogni attributo;
+  2. **più tuple** ➔ lette da altre tabelle mediante una **SELECT**.
 
 ##### Sintassi
 
@@ -474,3 +474,81 @@ La query non può contenere la clausola ORDER BY, poichè il DBMS inserisce le t
 **WHERE** < condizione > o **SUBQUERY**
 
 - **DELETE** ➔ cancellazione di tuple, mantenendo lo schema
+
+##### Sintassi
+
+**DELETE FROM** < nome tabella >
+
+**DELETE FROM** < nome tabella>
+**WHERE** ➔ Condizione da cancellare la tupla o **SUBQUERY**.
+
+**NOTA BENE**
+Con le operazioni di aggiornamento è necessario verificare che siano rispettati i vincoli di integrità.
+Ogni istruzione può modificare il contenuto di **una sola tabella**.
+
+#### LE VISTE
+
+```mermaid
+graph TD;
+Vista_1 --> Livello_logico;
+Vista_2 --> Livello_logico;
+... --> Livello_logico;
+Vista_n --> Livello_logico;
+Livello_logico --> Livello_fisico;
+```
+
+> Le viste sono presenti solo in DB con schemi medio-grandi.
+> Livello logico e livello fisico sono sempre presenti.
+
+Viene utilizzata quando si vuole dividere gli accessi, in basei ai diritti e alle priorità di chi utilizza il database.
+
+> **Esempio:**
+> Lo studente ha accesso solo ad una parte del database nel momento che si registra all'esame.
+
+- è una **relazione virtuale** ➔ creata runtime ogni volta che andrò ad interrogarla:
+  - contenuto definito mediante un'interrogazione SQL sulla base di dati;
+- il contenuto **non è memorizzato fisicamente** nel database.
+
+Utile per:
+
+- semplificare accesso ai dati;
+- fornire indipendenza logica ➔ quando cambio lo schema logico non tutte le viste vengono modificate poichè non contengono dati modificati;
+- garantire protezione dei dati.
+
+##### Struttura
+
+**_CREAZIONE_**
+
+**CREATE VIEW** < nome vista > [(< lista nomi colonne >)]
+**AS** < interrogazione >
+
+- < lista nomi colonne >
+  - non è obbligatoria, tranne nel caso l'interrogazione contenga nella clausola di proiezione colonne virtuali a cui non è assegnato un nome;
+
+**_ELIMINAZIONE_**
+
+**DROP VIEW** < nome vista >
+
+#### Esempi
+
+**Vista contenente il codice cliente, la data di inizio noleggio e la collocazionne dei video in noleggio da più di tre giorni.**
+
+```SQL
+CREATE VIEW nol3gg AS
+SELECT codCli, dataNol, colloc
+FROM Noleggio
+WHERE dataRest IS NULL AND dataNol + 3 <CURRENT_DATE>;
+```
+
+I nomi delle colonne della vista sono codCLi, dataNol e colloc.
+
+**Vista che, per ogni cliente, contiene il codice, il numero di noleggi effettuati e la durata massima in giorni di tali noleggi:**
+
+```SQL
+CREATE VIEW infoCli (codCli, numNol, durataM) AS
+SELECT codCli, COUNT(*), MAX((dataRest-dataNol) DAY)
+FROM Noleggio
+GROUP BY codCli;
+```
+
+- Quando le colonne sono calcolate nella Query di definizione devono andare a definire il nome che avranno le viste.
