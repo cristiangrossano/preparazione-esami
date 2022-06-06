@@ -1,5 +1,5 @@
 # Disclaimer
 
-Questi sono appunti presi da me e/o copiati da altri, non mi prendo nessuna responsabilità in caso di informazioni errate.
-Potrebbero esserci anche molti errori di battitura.
-Molte espressioni potrebbero essere errate, ma gli appunti di una persona devono essere compresi da quest'ultima.
+Tutto il testo presente in questa repository è frutto di miei appunti insieme ad appunti di altre persone.
+
+Potrebbero essere presenti errori grammaticali, di ortografia e battitura con anche una, seppur bassa, probabilità di errori anche nelle informazioni riportate.
