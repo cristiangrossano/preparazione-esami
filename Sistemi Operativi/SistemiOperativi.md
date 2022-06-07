@@ -174,12 +174,12 @@ Ovviamente il pooling **_è più efficace_** si evita di avere troppi registri n
 Per massimizzarlo bisogna creare le condizioni affinchè tutti i programmi vadano in parallelo.
 Lo scheduler di conseguenza deve privileggiare i programmi che fanno uno di I/O, in modo da spostarsi da un JOB ad un altro ogni volta che viene rischiesta una interazione di lettura/scrittura.
 
-**_Con i sistemi multiprogrammati vengono introdotti due concetti:_**  
+**_Con i sistemi multiprogrammati vengono introdotti due concetti:_**
 
 1. _program priority_, ad ogni programma viene assegnata una priorità;
 2. _preemption_, il processore viene tolto forzatatamente al processo che lo stava utilizzando;
-    1. Se è in esecuzione un programma di CPU BOUND e un processo di I/O BOUND ha finito la sua operazione di input/outout allora il processore tornerà forzatamente a questo
-    2. **_Viene fatto per migliorare il throughput_**
+   1. Se è in esecuzione un programma di CPU BOUND e un processo di I/O BOUND ha finito la sua operazione di input/outout allora il processore tornerà forzatamente a questo
+   2. **_Viene fatto per migliorare il throughput_**
 
 In questo periodo storico nascono gli **_hard disk_**, quindi non vi è più la necessità di utilizzare i natsri di lettura.
 Questo concede alla multiprogrammazione di arricchirsi con lo **_spooling_**.
@@ -187,7 +187,7 @@ I programmi quindi sono caricati in memoria, nel momento in cui un job termina, 
 
 Nasce il concetto di avere più terminali collegati allo stesso calcolatore.
 Diventa estremamente importante dare ad ogni soggetto che utilizza un terminale l'idea di star interagendo continuamente con il calcolatore.
-Nasce di conseguenza il concetto di **time-sharing**, ogni tot tempo il processore passa da  un terminale ad un altro.
+Nasce di conseguenza il concetto di **time-sharing**, ogni tot tempo il processore passa da un terminale ad un altro.
 
 **Multiprogrammazione:** priorità, preemption throughput.
 
@@ -205,7 +205,7 @@ Quindi ad esempio avere un context switch frequente garantisce maggiore interatt
 
 A partire dagli anni '80 si diffondono i PC.  
 I computer diventano quindi personali (Personal Computer) quindi bisogna renderne più facile l'utilizzo.  
-Per questo vengono introdotte le **GUI**.  
+Per questo vengono introdotte le **GUI**.
 
 #### Richiami di architettura e system call
 
@@ -238,10 +238,10 @@ I principali registri della CPU sono:
   - **_Condition Mode_** (CC): codici di condizione impostati da istruzioni di confronto/codici di proprietà di operazioni aritmetiche
   - **_Interruct Mask_** (IM): bit usati per gestire interrupt
   - **_Interrupt Code_** (IC): bit usati per gestire interrupt
-- **_Memory Protection Information_** (MPI): informazioni sulla porzione di memoria accessibile.  
+- **_Memory Protection Information_** (MPI): informazioni sulla porzione di memoria accessibile.
 
 I primi due registri contengono indirizzi di memoria.  
-I registri di Upper e Lower Bound sono parte del **PSW**.  
+I registri di Upper e Lower Bound sono parte del **PSW**.
 
 Le istruzioni privilegiate sono quelle che permettono di nodificare i valori del registro PSW.  
 Quest'ultime sono eseguibili solo in modalità kernel.  
@@ -265,7 +265,7 @@ Viene eseguito da un segnale hardware, sulla linea del BUS.
 Il segnale può essere inviato dal programma in esecuzione oppure dal clock/controller di un dispositivo.
 
 **Interruzioni HARDWARE**  
-Si tratta di eventi asincroni rispetto al programma in esecuzione.  
+Si tratta di eventi asincroni rispetto al programma in esecuzione.
 
 - interruzioni I/O (utilizzate per notificare qualcosa al processore)
 - interruzioni timer (segnale inviato dal clock quando il tempo messo a disposizione al programma termina)
@@ -275,20 +275,20 @@ Si tratta di eventi asincroni rispetto al programma in esecuzione.
 
 Nel momento in cui si verifica una interrupt **il processore** non esegue più come istruzione successiva quella localizzata nel PC ma va ad eseguire la prima del interrupt handler.  
 Quando il sistema operativo ha svolto il suo compito allora il programma che era in esecuzione prima potrà ripartire dall’istruzione che si trova nel pc.  
-**Nell’interrupt handler si trova che cosa bisogna fare per gestire l’interruzione.**  
+**Nell’interrupt handler si trova che cosa bisogna fare per gestire l’interruzione.**
 
-Può capitare che mentre è in esecuzione l’interrupt handler si verifichi un’altra interrupt;  
+Può capitare che mentre è in esecuzione l’interrupt handler si verifichi un’altra interrupt;
 
 succede la stessa identica cosa:
 Nel caso di salto tra i due handlers non c’è il passaggio da user a kernel dato che siamo già in modalità kernel.
-Quando si torna ai programmi in modalità user sarà lo scheduler a decidere se quando si è verificata la interrupt era in esecuzione word non è detto che ricomincerà l’esecuzione di word.  
+Quando si torna ai programmi in modalità user sarà lo scheduler a decidere se quando si è verificata la interrupt era in esecuzione word non è detto che ricomincerà l’esecuzione di word.
 
 **Gestione interrupt a cascata.**
 
 Gli interrupt vengono organizzati in classi di priorità
 
 - quando si gestisce una certa richiesta di interrupt, tutte quelle della stessa classe o di classi inferiori vengono ignorate. Tali richieste (quelle ignorate) rimangono pendenti.
-  
+
 **In che modo vengono ignorati gli interrupt con priorità minore?**  
 Tramite l'**IM** (interrupt mask).  
 Questa sequenza di bit dice quali interruzioni sono trattabili (enabled) e quali invece non lo sono (Masked Off).  
@@ -297,7 +297,7 @@ Quando il programma gira in modalità user tutti gli interrupt sono abilitati, i
 Per ogni **classe di interrupt** si trova un **interrupt vector**, situato nella locazione di memoria riservata al SO.  
 Il vettore contiene l'indirizzo alla prima istruzione della interruzione relativa.  
 Ovviamente quando questo indirizzo viene caricato sul PC, allora la prossima istruzione eseguita sarà proprio quella.  
-Sempre nell'interrupt handler **sono contenuti** i valori che devono prendere i registri della PSW.  
+Sempre nell'interrupt handler **sono contenuti** i valori che devono prendere i registri della PSW.
 
 Per ogni classe di interrupt si ha una **SRIA** che serve a memorizzare i valori seguenti nei registri:
 
@@ -310,6 +310,7 @@ Per ogni classe di interrupt si ha una **SRIA** che serve a memorizzare i valori
 Viene inviato un segnale via hardware.  
 Questo segnale importa l'**IC** della **PSW** che serve a comunicare al SO, le cause dell'interruzione.  
 I valori dei registri dei PC, SP, PSW relativi al programma P vengono salvati nella **SRIA**.
+
 > Vengono salvati i valori che avevano i vari registri, così una volta terminata l'interrupt si torna alla normale esecuzione
 
 I registri PC e PSW vengono quindi impostati in base a ciò che veniva trasmesso deel relativo interrupt vector.  
@@ -322,7 +323,7 @@ Con registri generali si intendono tutti quelli che non devono essere salvati vi
 **Una volta fatto questo valori del programma P sono stati salvati.**  
 Successivamente l'handler esegue il codice apposito per gestire l'interruzione.  
 Il codice sfrutta il valore dell'IC.  
-Terminate le sue operazioni **salta allo scheduler**, che selezionerà il programma P', dato che non è detto che **P = P'.**  
+Terminate le sue operazioni **salta allo scheduler**, che selezionerà il programma P', dato che non è detto che **P = P'.**
 
 **Cosa fa lo scheduler dopo che ha selezionato P'?**
 
@@ -339,30 +340,32 @@ Il **controller** è una componente elettronica che communica con il processore 
 Il controller gestisce i dispositivi.  
 **Può gestire più dispositivi contemporaneamente.**  
 L'interfaccia tra CPU e controller viene usata dai componenti del SO. (**i driver**).  
-I'interfaccia contiene:  
+I'interfaccia contiene:
 
 - porte i/p, dette anche registri di controllo
-   > usati dalla dalla CPU per communicare con il controller (dare/ricevere informazioni)
+
+  > usati dalla dalla CPU per communicare con il controller (dare/ricevere informazioni)
 
 - buffer
-   > serve a memorizzaare i dati durante le operazioni di I/O
+  > serve a memorizzaare i dati durante le operazioni di I/O
 
-Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:  
+Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:
 
 1. Porte di I/O gestite con istruzioni macchina
 
-  > le communicazioni sono di due tipi:
-  >
-  > dalle porte di I/O ai registri del processore e viceversa.
-  > Questre istruzioni devono essere **privilegiate**, per impedire che in modalità user si riesca ad accedere ai dispositivi.
+> le communicazioni sono di due tipi:
+>
+> dalle porte di I/O ai registri del processore e viceversa.
+> Questre istruzioni devono essere **privilegiate**, per impedire che in modalità user si riesca ad accedere ai dispositivi.
 
 2. Memory Mapped I/O
-    > Ad ogni porta I/O viene assegnato un indirizzo di memoria, non servono istruzioni ad hoc.
-    > Gli indirizzi non sono visibili dai programmi che dovranno invocare il SO per fare le oerazioni di I/O.
-    >
-    > In questa soluzione i driver possono essere scritti in **C**.
+   > Ad ogni porta I/O viene assegnato un indirizzo di memoria, non servono istruzioni ad hoc.
+   > Gli indirizzi non sono visibili dai programmi che dovranno invocare il SO per fare le oerazioni di I/O.
+   >
+   > In questa soluzione i driver possono essere scritti in **C**.
 
-**Il modo con cui avvengono le communicazioni tra CPU e dispositivi non è univoco, cu sono 3 metodi diversi.**.  
+**Il modo con cui avvengono le communicazioni tra CPU e dispositivi non è univoco, cu sono 3 metodi diversi.**.
+
 > Le prime due hanno dei problemi, sono obsolete, ma conoscerle aiuta nel comprendere il terzo metodo.
 
 **Soluzione 1 - Programmed I/O.**
@@ -378,13 +381,13 @@ Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:
 
 Il driver del dispositivo tramite il **device status register** vede se il dispositivo è pronto ad eseguire una nuova operazione oppure no.  
 Questo stato è definito da dei BIT.  
-Il cidce mostra che quando il dispositivo è 'ready' allora nel buffer del dispositivo verranno trasferiti byte di b, **uno alla volta.**  
+Il cidce mostra che quando il dispositivo è 'ready' allora nel buffer del dispositivo verranno trasferiti byte di b, **uno alla volta.**
 
-**Il grande problema di questo metodo è che fino a quando il dispositivo è occupato il processore è inutilizzato. Non si sfruttano gli interrupt.**  
+**Il grande problema di questo metodo è che fino a quando il dispositivo è occupato il processore è inutilizzato. Non si sfruttano gli interrupt.**
 
 Con **busy waiting** si intende il periodo di attesa in cui il processore viene utilizzato per aspettare.
 
-**Soluzione 2 - Interrupt Driven I/O.**  
+**Soluzione 2 - Interrupt Driven I/O.**
 
 ```java
 while(device_status_reg != READY){
@@ -413,4 +416,102 @@ return_from_interrupt()
 Questo è il codice eseguito dall'interrupt handler.  
 Quando il trasferimento di ogni byte viene controllato, il controllore manda un interrupt.  
 In questo momento ricominciano le iterazioni del handleer che tra il trasferimento di un byte e quello successivo permette di far andare avanti un programma.  
-Il processo è decisamente troppo macchinoso, per **n byte** ci sono **n interrupt**.  
+Il processo è decisamente troppo macchinoso, per **n byte** ci sono **n interrupt**.
+
+## Esercizi Semafori
+
+### Problema dello sleeping barber
+
+In un barber shop lavora un solo barbiere, vi è una sola sedia adibita al taglio, e vi sono N sedie per i clienti in attesa.
+Assumiamo N=20.
+
+#### Comportamento del barbiere
+
+- all'apertura del negozio si mette a dormire nella sedia adibita al taglio, in attesa che un cliente entri e lo svegli;
+- quando ci sono clienti in attesa, il barbiere li chiama e li serve uno alla volta;
+- quando non ci sono clienti in attesa, il barbiere si rimette a dormire nella sedia adibita al taglio.
+
+#### Comportamento del cliente
+
+- quando entra nel negozio, se non ci sono sedie libere va a cercarsi un
+  altro barbiere;
+- quando entra nel negozio, se c'è almeno una sedia libera ne occupa una, svegliando il barbiere se sta dormendo, ed attendendo di essere chiamato dal barbiere per il taglio.
+
+#### Programmare il barbiere ed il singolo cliente
+
+```java
+semaphore clients_in_shop = 0;
+barber_free = 0;
+mutex = 1;
+
+int waiting_clients = 0; //variabile condivisa
+
+final int CHAIRS = 20;
+
+barbiere(){
+  while(true){
+    wait(clients_in_shop);
+    wait(mutex);
+    waiting_clients = waiting_clients - 1;
+    signal(barber_free);
+    signal(mutex);
+    cut_hair()
+  }
+}
+
+cliente(){
+  wait(mutex);
+  if(waiting_clients < CHAIRS){
+    waiting_clients = waiting_clients + 1;
+    signal(client_in_shops);
+    signal(mutex);
+    receive_cut();
+  } else {
+    signal(mutex)
+  }
+}
+```
+
+### Problema del ponte
+
+Un vecchio ponte consente di attraversare il ponte in solo due direzioni:
+
+1. Nord 🠞 Sud
+2. Sud 🠞 Nord
+
+- per ragioni di peso, in ogni istante più di un veicolo non può passare sul ponte;
+- se un veicolo trova il ponte occupato, attende che si liberi (non è previsto che il veicolo decida di rinunciare ad attraversare il ponte);
+- dopo che un veicolo ha attraversato il ponte in una direzione, se ci sono veicoli in attesa su entrambi i lati allora deve passare per primo un veicolo che viaggia nella direzione opposta.
+
+Programmare il veicolo che viaggia in senso:
+
+- Nord 🠞 Sud (**goingToSouth**);
+- Sud 🠞 Nord (**goingToNorth**).
+
+```java
+semaphore mutex = 1;
+toNorth = 0;
+to South = 0;
+boolean bridgeFree = true;
+int bookToNorth = 0;
+int bookToSouth = 0;
+
+enteringNorth(){
+  wait(mutex);
+  if(bridgeFree){
+    bridgeFree = false;
+    signal(mutex)
+  } else {
+    bookToSouth++;
+    signal(mutex);
+    wait(toSouth);
+  }
+}
+
+exitingSouth(){
+  wait(mutex);
+  if(bookToNorth > 0){
+    bookToNorth
+  }
+}
+```
