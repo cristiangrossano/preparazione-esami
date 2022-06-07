@@ -418,6 +418,140 @@ Quando il trasferimento di ogni byte viene controllato, il controllore manda un 
 In questo momento ricominciano le iterazioni del handleer che tra il trasferimento di un byte e quello successivo permette di far andare avanti un programma.  
 Il processo è decisamente troppo macchinoso, per **n byte** ci sono **n interrupt**.
 
+**Soluzione 3**
+
+L'architettura prevede un controllore **Direct Memory Access (DMA)**, capace di accedere direttamente alla memoria e di lavorare in parallelo con la CPU.  
+Il processore dice al controllore del DMA di trasferire i dati.  
+Il controllore del disco manderà sempre una interruzione per ogni byte, questa volta però la interrupt arrivano al controllore del DMA.  
+Il controllore del DMA farà praticamete lo stesso che faceva l'handler nella soluzione 2.  
+**Quando tutto il trasferimento termina allora il controllore del DMA manderà unn interrupt al processore.**
+
+```java
+set_up_DMA_CONTROLLER(); // IMPOSTO REGISTRI DEL CONTROLLER
+scheduler(); // P lascio la CPU, la riotterrò ad operazione conclusa
+```
+
+Si usano le porte di I/O del cntrollore DMA per dirgli che cosa fare (le istruzioni vengono salvate nelle porte).
+
+Lo scheduler schedula un diagramma diverso che verrà eseguito dalla CPU in parallelo alle operazioni eseguite dal DMA.
+
+### Program Interrupt
+
+Oltre agli hardware interrupt, esistono due tipi di program interrupt:
+
+- eccezioni;
+- software interrupt.
+
+Eccezioni:
+
+- eccezioni aritmetiche;
+- eccezioni di indirizzamento;
+- violazioni delle protezioni di memoria.
+
+**Contrariamente agli interrupt hardware, le eccezioni non sono eventi asincroni rispetto alla esecuzione del programma.**
+Sono eventi causati da situazione anomale verificatosi all'interno del programma. devono essere trattate dal SO.  
+Può essere che il SO imponga la terminazione immediata del programma.
+
+**Software Interrupt (trap)**  
+Sono causati da una istruzione apposita, chiamata trap.  
+Sono interventi usati per chiedere esplicitamente l'intervento del SO.
+
+> **NOTA BENE** > **TRAP** = Istruzione linguaggio macchina;
+> **trap** = Software interrupt instruction.
+
+L'istruzione TRAP è l'unica che permette di chiedere l'intervento del sistema operativo, per questo motivo sono necessario definire, in qualche modo, che tipo di servizio si vuole richiedere.
+
+- la TRAP ha un **parametro** che specifica il tipo di intervento richiesto (individua il servizio). Può essere passato in due modi:
+  - come operando della TRAP ( se quest'ultima pretende operandi);
+  - ponendolo sullo stack.
+
+Gerarchia:
+
+1. Machine Error;
+2. Clock Interrupt;
+3. Disk Interrupt;
+4. Fast Device Interrupt;
+5. Slow Device Interrupt;
+6. Exception;
+7. Trap.
+
+Le program iinterrupt hanno gerarchi inferiore rispetto alle hardware interrupt.
+
+Il vettore relativo alle program interruption è il Program Interrupt Vector che: (Fase 2):
+
+- contiene il riferimento al primo bit del relativo handler quindi **PC = aaa**;
+- sposta il bit nella modalità su kernel quindi **PM = 1**.
+
+L'interrupt handler (Fase 3):
+
+- salva il contenuto dei registri generali;
+- controllo l'IC per individuare il parametro;
+- esegue le sue funzioni;
+- invoca lo scheduler.
+
+Una **Systema Call** è una richiesta al sistema operativo effettuata da un programma.
+
+- le system call sono strumenti messi a disposizione dei programma per avvalersi dei servizi offerti dal SO;
+- vengono realizzate con la TRAP:
+  - per ogni parametro c'è una system call diversa. Se i bit del IC sono n, ci saranno 2^n system call.
+
+In corrispondenza ad ogni chiamata di sistema si ha una funzione di libreria (utilizzata dai linguaggi di programmazione).
+Le funzioni di libreria invocano la TRAP.
+
+## PROCESSI
+
+### Memory Layout dei programmi
+
+L'esecuzione di un programma necessita di tre aree di memoria, tradizionalmente dette **regioni**:
+
+- area di testo
+  - contiene il testo del programma in un linguaggio macchina, non è modificabile dall'esecuzione del programma;
+- area di dati:
+  - contiene le variabili globali del programma, quelle condivide da tutte le procedure (metodi). I valori variano in un contenuto e in dimensione;
+- area di stack
+  - contiene i record di attivazione delle procedure già chiamate, ma non ancora terminate. Anche qui il contenuto è varibile sia in contenuto sia in dimensione
+
+Per le strutture dati dinamiche delle procedure si usa una particolare dell'area dati, detta **area heap**.
+
+> In Java i valori di un array vengono memorizzati proprio in questa area.
+
+**Il codice di un programma contiene indirizzi di memoria che si riferiscono a ognuna di queste zone.**
+Gli indirizzi sono **virtuali**, sarà la MMU a tradurli nei veri indirizzi.
+
+La memoria virtuale è resa possibile da un registro della architettura, il **Relocatione Register (RR)**.
+Questo permette alla MMU di tradurre gli indirizzi giusti.
+Supponendo che io voglia mettere dei dati nell'indirizzo 1 e questo occupato.
+Il SO non mi dice che è occupato.
+Cerca un indirizzo libero e memorizza il dato li.
+Nel Relocation Register viene salvato di quanto è stato spostato l'indirizzo.
+Se da 1 l'indirizzo passa a a1001 allora il RR avrà valore 1000.
+Quindi nella memoria virtuale il registro sarà 1 mentre nella memoria effettiva 1001.
+
+### Definizione Processo
+
+**Un processo è un'istanza di un programma in esecuzione.**
+Ci possono essere più processi relativi allo stesso programmma. Possono infatti esserci anche più esecuzioni in contemporanea dello stesso programma.
+E' importante che le diverse esecuzioni non si diano fastidio a vicenda, per questo è necessario che ogni processo possa modificare/leggere solo le sue locazioni di memoria.
+
+Il programma in se è quindi una entità passiva, non esegue nessuna azione.
+L'esecuzione del programma, chiamata processo, **concretizza le azioni** del programma.
+**Le entità schedulate dal SO, sono perciò processi, non i programmi.**
+Anche le aree di memoria viste in precedenza sono associate al **programma in esecuzione** quindi ad un processo.
+
+**Un processo consiste delle seguenti componenti:**
+
+- stato della CPU;
+- Area di Testo;
+- Area Dati;
+- Area di Stack;
+- Risorse Fisiche (hardware) e logiche assegnate al processo.
+
+### Parallelismo e Concorrenza
+
+In generale si dice che due eventi sono paralleli se occorrono nello stesso momento.
+CHiaramente disponendo di una macchina con solo un processore non è possibile che i processi associati a questi programmi vengano eseguiti in parallelo da che un processore può eseguire una sola istruzione per volta.
+**La concorrenza è l'illusione del parallelismo**
+
 ## Esercizi Semafori
 
 ### Problema dello sleeping barber
@@ -696,7 +830,7 @@ exiting(){
         signal(gateB)
       } else {
         freeSlots++;
-      } 
+      }
     } else {
       freeSlots++;
     }
