@@ -511,7 +511,70 @@ enteringNorth(){
 exitingSouth(){
   wait(mutex);
   if(bookToNorth > 0){
-    bookToNorth
+    bookToNorth--;
+    signal(toNorth);
+  } else {
+    if(bookToSouth > 0){
+      bookToSouth--;
+      signal(toSouth);
+    } else {
+      bridgeFree = true;
+    }
   }
+  signal(mutex);
+}
+
+goingToSouth(){
+    enteringNorth();
+    crossingToSouth();
+    exitingSouth();
+  }
+
+goingToNorth(){
+  enteringSouth();
+  crossingToSouth();
+  exitingNorth();
+}
+```
+
+Supponiamo che il ponte abbia problemi di peso e possa reggere più veicoli, ma abbia una sola corsia:
+
+- essendoci una sola corsia, in ogni istante tutti i veicoli sul ponte devono andare nella medesima direzione;
+- un veicolo può entrare sul ponte nei seguenti casi:
+  - il ponte è libero;
+  - sul ponte ci sono veicoli che stanno andando nella medesima direzione e dall'altro lato del ponte non ci sono veicoli in attesa.
+
+```java
+semaphore mutex = 1;
+toNorth = 0;
+toSouth = 0;
+int bookToNorth = 0;
+int bookToSouth = 0;
+int goingToNorth = 0;
+int goingToSouth = 0;
+
+enteringNorth(){
+  wait(mutex);
+  if(goingToNorth = 0 & bookToNorth = 0){
+    goingToSouth++;
+    signal(mutex);
+  } else {
+    bookToSouth++;
+    signal(mutex);
+    wait(toSouth)
+  }
+}
+
+exitingSouth(){
+  wait(mutex);
+  goingToSouth--;
+  if(goingToSouth = 0){
+    while(bookToNorth > 0){
+      goingToNorth++;
+      bookToNorth--;
+      signal(toNorth);
+    }
+  }
+  signal(mutex);
 }
 ```
