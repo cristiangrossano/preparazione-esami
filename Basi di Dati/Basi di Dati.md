@@ -1053,3 +1053,19 @@ programmazione che funzionano sui DBMS.
 Vantaggi: rendono più facili le operazioni di sviluppo e di esecuzione delle app, garantiscono una
 buona performance, sono molto utili per sistemi DATA INTENSIVE
 Svantaggi: poca espressività e poca portabilità.
+
+## Esercizi
+
+### Appello del 15 febbraio 2018
+
+1. Spiegare cosa significa indipendenza logica e fisica in un DBMS;
+2. Dare la definizione formale di chiave esterna nel modello relazionale;
+3. Spiegare cos’è una transazione ed illustrare le proprietà che il DBMS assicura alla sua esecuzione;
+4. Spiegare le varie opzioni per tradurre una associazione uno a uno del modello ER in uno schema relazionale;
+5. Illustrare brevemente le principali soluzioni per lo sviluppo di una applicazione che si interfaccia ad un DBMS ed i pregi e svantaggi di ognuna di esse.
+
+▷ Domanda 1
+L’architettura a 3 livelli dei database realizza meccanismi di astrazione dei dati e ne assicura l’indipedenza: i livelli “superiori” dell’architettura non sono influenzati (in certi limiti) da ciò che succede nei livelli a loro inferiori. Si identificano due livelli: **indipendenza logica** ed **indipedenza fisica**
+
+- Con indipendenza logica dei dati si fa riferimento alla capacità dello schema esterno di non essere influenzato dai cambiamenti apportati allo schema logico. Aggiungere un campo ad una certa tabella non avrà alcun effetto sulle viste.
+- Con indipendenza fisica dei dati si fa riferimento alla capacità dello schema esterno di non essere influenzato dai cambiamenti apportati allo schema interno. _Cambiare il dispositivo di memorizzazione nel quale è situata la tabella non comporterà nessun cambiamento allo schema logic (e di conseguenza nemmeno agli schemi esterni), rendendo di fatto il cambiamento trasparente agli utenti_.
