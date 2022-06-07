@@ -578,3 +578,54 @@ exitingSouth(){
   signal(mutex);
 }
 ```
+
+Per smaltire il traffico con maggior efficienza, supponiamo ora che quando un veicolo è in attesa ad un lato del ponte perché altri veicoli stanno andando verso il lato in cui si trova, sia consentito ad ulteriori 10 veicoli di entrare dal lato opposto.
+
+```java
+semaphore mutex = 1;
+toNorth = 0;
+toSouth = 0;
+boolean bridgeFree = true;
+int bookToNorth = 0;
+int bookToSouth = 0;
+int goingToNorth = 0;
+int goingToSouth = 0;
+extraToNorth = 0;
+extraToSouth = 0;
+
+enteringNorth(){
+  wait(mutex);
+  if(goingToNorth = 0 & bookToNorth = 0){
+    goingToSouth++;
+    signal(mutex);
+  } else {
+  if(goingToSouth > 0 & extraToSouth < 10){
+    extraToSouth++;
+    goingToSouth++;
+    signal(mutex);
+    } else {
+      bookToSouth++;
+      signal(mutex);
+      wait(toSouth)
+    }
+  }
+}
+
+exitingSouth(){
+  wait(mutex);
+  goingToSouth--;
+  if(goingToSouth = 0){
+   if(extraToSouth = 0){
+     extraToSouth = 0;
+   }
+   while(bookToNorth > 0){
+     goingToNorth++;
+     bookToNorth--;
+     signal(toNorth);
+   }
+  }
+  signal(mutex)
+}
+
+```
+
