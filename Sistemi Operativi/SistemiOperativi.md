@@ -513,7 +513,7 @@ L'esecuzione di un programma necessita di tre aree di memoria, tradizionalmente 
 
 Per le strutture dati dinamiche delle procedure si usa una particolare dell'area dati, detta **area heap**.
 
-> In c++ i valori di un array vengono memorizzati proprio in questa area.
+> In java i valori di un array vengono memorizzati proprio in questa area.
 
 **Il codice di un programma contiene indirizzi di memoria che si riferiscono a ognuna di queste zone.**
 Gli indirizzi sono **virtuali**, sarà la MMU a tradurli nei veri indirizzi.

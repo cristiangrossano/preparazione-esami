@@ -19,7 +19,7 @@ Assumiamo N=20.
 
 ### Programmare il barbiere ed il singolo cliente
 
-```c++
+```c
 semaphore clients_in_shop = 0;
 barber_free = 0;
 mutex = 1;
@@ -68,7 +68,7 @@ Programmare il veicolo che viaggia in senso:
 - Nord 🠞 Sud (**goingToSouth**);
 - Sud 🠞 Nord (**goingToNorth**).
 
-```c++
+```c
 semaphore mutex = 1;
 toNorth = 0;
 to South = 0;
@@ -124,7 +124,7 @@ Supponiamo che il ponte abbia problemi di peso e possa reggere più veicoli, ma 
   - il ponte è libero;
   - sul ponte ci sono veicoli che stanno andando nella medesima direzione e dall'altro lato del ponte non ci sono veicoli in attesa.
 
-```c++
+```c
 semaphore mutex = 1;
 toNorth = 0;
 toSouth = 0;
@@ -161,7 +161,7 @@ exitingSouth(){
 
 Per smaltire il traffico con maggior efficienza, supponiamo ora che quando un veicolo è in attesa ad un lato del ponte perché altri veicoli stanno andando verso il lato in cui si trova, sia consentito ad ulteriori 10 veicoli di entrare dal lato opposto.
 
-```c++
+```c
 semaphore mutex = 1;
 toNorth = 0;
 toSouth = 0;
@@ -217,7 +217,7 @@ Quando un veicolo si presenta ad uno dei due ingressi, se c'è almeno un posto e
 Se ci sono veicoli in attesa ad entrambi gli ingressi, vengono fatti entrare quando altri veicoli escono dal parcheggio, aprendo le due sbarre alternativamente.  
 Quando un veicolo esce dal parcheggio, se ci sono veicoli in attesa almeno uno dei due ingresssi, ne fa entrare uno.
 
-```c++
+```c
 semaphore mutex = 1;
 gateA = 0;
 gateB = 0;
@@ -286,7 +286,7 @@ exiting(){
 
 ```
 
-```c++
+```c
 /*
 Una palestra può ospitare al massimo 40 clienti. Esistono due tipologie di cliente:
 - regular
@@ -396,7 +396,7 @@ esceR(){
 }
 ```
 
-```c++
+```c
 /*
 Un'area giochi è accessibile da gruppi formati da 2, 3, 4 persone.
 L'area giochi può ospitare al massimo 50 persone.
@@ -556,7 +556,7 @@ esceQ(){
 }
 ```
 
-```c++
+```c
 /* 
 Un parcheggio può ospitare motoveicoli e autoveicoli.
 
@@ -658,7 +658,7 @@ esceM(){
 }
 ```
 
-```c++
+```c
 /*
 Un negozio può ospitare al massimo 50 clienti, che sono classificati come "clienti con green pass
 base" e " clienti con green pass rafforzato". Programmare l'ingresso nel negozio ed uscita dal negozio dei
@@ -758,10 +758,78 @@ esceGPRafforzato(){
 }
 ```
 
-```c++
+```c
+/* 
+Si consideri un array di int A, di dimensione 4, inizializzato a [0, 0, 0, 0],
 
+si assumano i seguenti processi:
+
+- WP: mosidicano gli elementi di indice pari, sommando 1 a tali elementi;
+
+- WD: modificano gli elementi di indice dispari, sommando 1 a tali elementi;
+
+- WT: modificano tutti gli elementi, sommando due a tali elementi;
+
+- R: leggono gli elementi dell'array e ne calcolano la somma, assegnandika ad una     variabile privata
+
+Programmare le 4 tipologie di processo, nel rispetto dei seguenti viincoli:
+
+- i semafori devono essere usati assumento la semantica tradizionale, le uniche operazioni concesse sono wait e signal
+
+- race condition su S e sui singoli elementi di A devono essere impossibili;
+
+- nessun processo deve essere in waiting senza ragione. Vale a dire, se un processo è in attesa allora l'accesso all'array di tale processo violerebbe la condizione precedente.
+*/
+
+int A[4] = [0, 0, 0, 0];
+sem mutex_pari = 1; 
+/*gestisco la muta esclusione degli elementi di indice pari*/
+sem mutex_dispari = 1;
+/*gestisco la muta esclusione degli elementi di indice dispari*/
+
+processoWP({
+  wait(mutex_pari);
+
+  A[0] = A[0] + 1;
+  A[2] = A[2] + 1;
+
+  signal(mutex_pari);
+})
+
+processoWD(){
+  wait(mutex_dispari);
+
+  A[1] = A[1] + 1;
+  A[3] = A[3] + 1;
+
+  signal(mutex_dispari);
+}
+
+processoWT(){
+
+  wait(mutex_pari);
+  wait(mutex_dispari);
+
+  A[0] = A[0] + 2;
+  A[1] = A[1] + 2;
+  A[2] = A[2] + 2;
+  A[3] = A[3] + 2;
+
+  signal(mutex_pari);
+  signal(mutex_dispari);
+}
+
+processoR(){
+  wait(mutex_pari);
+  wait(mutex_dispari);
+
+  int z = A[0] + A[1] + A[2] + A[3];
+
+  signal(mutex_pari);
+  signal(mutex_dispari);
+}
 ```
 
-```c++
+```c
 
 ```
