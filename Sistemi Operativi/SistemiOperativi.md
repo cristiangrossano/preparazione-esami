@@ -56,11 +56,11 @@ Il **Kernel level** e **User level** communicano tramite **_system call interfac
 Esempio.
 Per la riga di codice:
 
-```java
+```c++
 system.out.println("ciao")
 ```
 
-Non abbiamo Java che 'magicamente' scrive "ciao", bensì, per eseguire questa azione deve richiedere l'intervento del Sistema Operativo tramite **_system call interface_**.
+Non abbiamo c++ che 'magicamente' scrive "ciao", bensì, per eseguire questa azione deve richiedere l'intervento del Sistema Operativo tramite **_system call interface_**.
 Ovviamente per questo intervento il calcolatore passerà in modalità kernel.
 
 ---
@@ -80,8 +80,8 @@ Le istruzioni che utilizzano il sistema operativo vengono precedute dal simbolo 
 
 - **_$JOB_** = Inizio del processo;
 - **_$FORTRAN_** per compilare il codice;
-  > ovviamente si usa questo comando se il linguaggio viene scritto in FORTRAN, un po' come quando utilizziamo il comando javac, per
-  > compilare java.
+  > ovviamente si usa questo comando se il linguaggio viene scritto in FORTRAN, un po' come quando utilizziamo il comando c++c, per
+  > compilare c++.
 - **_$LOAD_** per caricare l'eseguibile in RAM;
 - **_$RUN_** per eseguire;
 - **_$END_** fine del processo.
@@ -370,7 +370,7 @@ Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:
 
 **Soluzione 1 - Programmed I/O.**
 
-```java
+```c++
   for (i = 0; i < n; i++){
     while(device_status_reg != READY){
       //busy waiting
@@ -389,7 +389,7 @@ Con **busy waiting** si intende il periodo di attesa in cui il processore viene 
 
 **Soluzione 2 - Interrupt Driven I/O.**
 
-```java
+```c++
 while(device_status_reg != READY){
   // busy waiting solo all'inizio
 }
@@ -402,7 +402,7 @@ scheduler() // P lascia la CPU, la riotterrà a operazione conclusa
 > Nel motodo precedente il **busy waiting** c'era sempre, anche tra un Byte e l'altro (da b[i] a b[i + 1])  
 > Adesso c'è solo nella prima interazione, poi non è più presente.
 
-```java
+```c++
 if(c==n){
   unblock_user(); // il programma P può ripartire
 } else {
@@ -426,7 +426,7 @@ Il controllore del disco manderà sempre una interruzione per ogni byte, questa 
 Il controllore del DMA farà praticamete lo stesso che faceva l'handler nella soluzione 2.  
 **Quando tutto il trasferimento termina allora il controllore del DMA manderà unn interrupt al processore.**
 
-```java
+```c++
 set_up_DMA_CONTROLLER(); // IMPOSTO REGISTRI DEL CONTROLLER
 scheduler(); // P lascio la CPU, la riotterrò ad operazione conclusa
 ```
@@ -513,7 +513,7 @@ L'esecuzione di un programma necessita di tre aree di memoria, tradizionalmente 
 
 Per le strutture dati dinamiche delle procedure si usa una particolare dell'area dati, detta **area heap**.
 
-> In Java i valori di un array vengono memorizzati proprio in questa area.
+> In c++ i valori di un array vengono memorizzati proprio in questa area.
 
 **Il codice di un programma contiene indirizzi di memoria che si riferiscono a ognuna di queste zone.**
 Gli indirizzi sono **virtuali**, sarà la MMU a tradurli nei veri indirizzi.
@@ -551,291 +551,3 @@ Anche le aree di memoria viste in precedenza sono associate al **programma in es
 In generale si dice che due eventi sono paralleli se occorrono nello stesso momento.
 CHiaramente disponendo di una macchina con solo un processore non è possibile che i processi associati a questi programmi vengano eseguiti in parallelo da che un processore può eseguire una sola istruzione per volta.
 **La concorrenza è l'illusione del parallelismo**
-
-## Esercizi Semafori
-
-### Problema dello sleeping barber
-
-In un barber shop lavora un solo barbiere, vi è una sola sedia adibita al taglio, e vi sono N sedie per i clienti in attesa.
-Assumiamo N=20.
-
-#### Comportamento del barbiere
-
-- all'apertura del negozio si mette a dormire nella sedia adibita al taglio, in attesa che un cliente entri e lo svegli;
-- quando ci sono clienti in attesa, il barbiere li chiama e li serve uno alla volta;
-- quando non ci sono clienti in attesa, il barbiere si rimette a dormire nella sedia adibita al taglio.
-
-#### Comportamento del cliente
-
-- quando entra nel negozio, se non ci sono sedie libere va a cercarsi un
-  altro barbiere;
-- quando entra nel negozio, se c'è almeno una sedia libera ne occupa una, svegliando il barbiere se sta dormendo, ed attendendo di essere chiamato dal barbiere per il taglio.
-
-#### Programmare il barbiere ed il singolo cliente
-
-```java
-semaphore clients_in_shop = 0;
-barber_free = 0;
-mutex = 1;
-
-int waiting_clients = 0; //variabile condivisa
-
-final int CHAIRS = 20;
-
-barbiere(){
-  while(true){
-    wait(clients_in_shop);
-    wait(mutex);
-    waiting_clients = waiting_clients - 1;
-    signal(barber_free);
-    signal(mutex);
-    cut_hair()
-  }
-}
-
-cliente(){
-  wait(mutex);
-  if(waiting_clients < CHAIRS){
-    waiting_clients = waiting_clients + 1;
-    signal(client_in_shops);
-    signal(mutex);
-    receive_cut();
-  } else {
-    signal(mutex)
-  }
-}
-```
-
-### Problema del ponte
-
-Un vecchio ponte consente di attraversare il ponte in solo due direzioni:
-
-1. Nord 🠞 Sud
-2. Sud 🠞 Nord
-
-- per ragioni di peso, in ogni istante più di un veicolo non può passare sul ponte;
-- se un veicolo trova il ponte occupato, attende che si liberi (non è previsto che il veicolo decida di rinunciare ad attraversare il ponte);
-- dopo che un veicolo ha attraversato il ponte in una direzione, se ci sono veicoli in attesa su entrambi i lati allora deve passare per primo un veicolo che viaggia nella direzione opposta.
-
-Programmare il veicolo che viaggia in senso:
-
-- Nord 🠞 Sud (**goingToSouth**);
-- Sud 🠞 Nord (**goingToNorth**).
-
-```java
-semaphore mutex = 1;
-toNorth = 0;
-to South = 0;
-boolean bridgeFree = true;
-int bookToNorth = 0;
-int bookToSouth = 0;
-
-enteringNorth(){
-  wait(mutex);
-  if(bridgeFree){
-    bridgeFree = false;
-    signal(mutex)
-  } else {
-    bookToSouth++;
-    signal(mutex);
-    wait(toSouth);
-  }
-}
-
-exitingSouth(){
-  wait(mutex);
-  if(bookToNorth > 0){
-    bookToNorth--;
-    signal(toNorth);
-  } else {
-    if(bookToSouth > 0){
-      bookToSouth--;
-      signal(toSouth);
-    } else {
-      bridgeFree = true;
-    }
-  }
-  signal(mutex);
-}
-
-goingToSouth(){
-    enteringNorth();
-    crossingToSouth();
-    exitingSouth();
-  }
-
-goingToNorth(){
-  enteringSouth();
-  crossingToSouth();
-  exitingNorth();
-}
-```
-
-Supponiamo che il ponte abbia problemi di peso e possa reggere più veicoli, ma abbia una sola corsia:
-
-- essendoci una sola corsia, in ogni istante tutti i veicoli sul ponte devono andare nella medesima direzione;
-- un veicolo può entrare sul ponte nei seguenti casi:
-  - il ponte è libero;
-  - sul ponte ci sono veicoli che stanno andando nella medesima direzione e dall'altro lato del ponte non ci sono veicoli in attesa.
-
-```java
-semaphore mutex = 1;
-toNorth = 0;
-toSouth = 0;
-int bookToNorth = 0;
-int bookToSouth = 0;
-int goingToNorth = 0;
-int goingToSouth = 0;
-
-enteringNorth(){
-  wait(mutex);
-  if(goingToNorth = 0 & bookToNorth = 0){
-    goingToSouth++;
-    signal(mutex);
-  } else {
-    bookToSouth++;
-    signal(mutex);
-    wait(toSouth)
-  }
-}
-
-exitingSouth(){
-  wait(mutex);
-  goingToSouth--;
-  if(goingToSouth = 0){
-    while(bookToNorth > 0){
-      goingToNorth++;
-      bookToNorth--;
-      signal(toNorth);
-    }
-  }
-  signal(mutex);
-}
-```
-
-Per smaltire il traffico con maggior efficienza, supponiamo ora che quando un veicolo è in attesa ad un lato del ponte perché altri veicoli stanno andando verso il lato in cui si trova, sia consentito ad ulteriori 10 veicoli di entrare dal lato opposto.
-
-```java
-semaphore mutex = 1;
-toNorth = 0;
-toSouth = 0;
-boolean bridgeFree = true;
-int bookToNorth = 0;
-int bookToSouth = 0;
-int goingToNorth = 0;
-int goingToSouth = 0;
-extraToNorth = 0;
-extraToSouth = 0;
-
-enteringNorth(){
-  wait(mutex);
-  if(goingToNorth = 0 & bookToNorth = 0){
-    goingToSouth++;
-    signal(mutex);
-  } else {
-  if(goingToSouth > 0 & extraToSouth < 10){
-    extraToSouth++;
-    goingToSouth++;
-    signal(mutex);
-    } else {
-      bookToSouth++;
-      signal(mutex);
-      wait(toSouth)
-    }
-  }
-}
-
-exitingSouth(){
-  wait(mutex);
-  goingToSouth--;
-  if(goingToSouth = 0){
-   if(extraToSouth = 0){
-     extraToSouth = 0;
-   }
-   while(bookToNorth > 0){
-     goingToNorth++;
-     bookToNorth--;
-     signal(toNorth);
-   }
-  }
-  signal(mutex)
-}
-
-```
-
-### Parcheggio
-
-Un parcheggio ha 30 posti, due ingressi con sbarra, A e B, ed infine un'uscita.
-
-Quando un veicolo si presenta ad uno dei due ingressi, se c'è almeno un posto entra, parcheggia ed esce dal parcheggio, altrimenti prenota l'ingresso ed attende di poter entrare.  
-Se ci sono veicoli in attesa ad entrambi gli ingressi, vengono fatti entrare quando altri veicoli escono dal parcheggio, aprendo le due sbarre alternativamente.  
-Quando un veicolo esce dal parcheggio, se ci sono veicoli in attesa almeno uno dei due ingresssi, ne fa entrare uno.
-
-```java
-semaphore mutex = 1;
-gateA = 0;
-gateB = 0;
-int bookA = 0;
-int bookB = 0;
-freeSlots = 30;
-turn = 0;
-
-enteringA(){
-  wait(mutex);
-  if(freeSlots > 0){
-    freeslots--;
-    signal(mutex);
-  } else {
-    bookA++;
-    signal(mutex);
-    wait(gateA);
-  }
-}
-
-enteringB(){
-  wait(mutex);
-  if(freeSlots > 0){
-    freeslots--;
-    signal(mutex);
-  } else {
-    bookA++;
-    signal(mutex);
-    wait(gateB);
-  }
-}
-
-inA(){
-  enteringA();
-  park();
-  exiting();
-}
-
-inB(){
-  enteringB();
-  park();
-  exiting();
-}
-
-exiting(){
-  wait(mutex);
-  if(freeSlots = 0){
-    if((turn = 0 | book == 0) & bookA > 0){
-      bookA--;
-      turn = 1;
-      signal(gateA);
-    } else {
-      if(bookB > 0){
-        bookB--;
-        turn = 0;
-        signal(gateB)
-      } else {
-        freeSlots++;
-      }
-    } else {
-      freeSlots++;
-    }
-    signal(mutex);
-  }
-}
-
-```
