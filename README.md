@@ -8,4 +8,4 @@ Potrebbero essere presenti errori grammaticali, di ortografia e battitura con an
 
 ## Perchè ho scelto MD?
 
-Ho scelto di scrivere i testi in MD perchè sono di maggior leggibilità direttamente da GitHub e per la loro facile e veloce conversione in altri tipi di file (come i tanto usati file .pdf).
+Ho scelto di scrivere i testi in MD perchè sono di maggior leggibilità direttamente da GitHub e per la loro facile e veloce conversione in altri tipi di file (come i tanto usati file .pdf).  
