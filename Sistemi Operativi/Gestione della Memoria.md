@@ -25,3 +25,4 @@ Quando si vuole avviare un programma, in un sistema con allocazione contigua, il
 
 In generale, in un sistema che gestisce la memoria libera mediante una free list, per allocare un'area contigua di dimensione `n` byte è necessario cercare nella lista un blocco livero di dimensione >= `n`.
 Se la sua dimensione è `d`, dopo aver allocato i `n` byte richiesti si ha ancora un'area libera di `d - k` byte, che rimane nella free list.
+Esistono almeno tre tecniche diverse per effettuare la ricerca:
