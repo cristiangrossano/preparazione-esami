@@ -24,6 +24,15 @@ L'**internet delle cose permette di informatizzare e mettere in rete le informaz
 Esattamente nella stessa maniera di personal computer, smartphone e pad hanno fatto con le persone.
 Secondo le stime di **Gartner**, grazie alla connessione degli oggetti il numero degli IoT aumenterà notevolmente.
 
+## Come sono nati
+
+I primi concetti alla base dell'IoT sono stati abbozzati nel 1982.
+Allora alcuni ricercatori della **Carnegie Mellon University** hanno applicato sensori e la connessione in rete a un distributore di bibite dell'ateneo per verificarne il funzionamento.
+Qualche anno più tardi i concetti erano ripresi in un articolo divulgativo.
+
+L'attuale significato di IoT accompagna i primi sviluppi della teconologia RFID (radio frequency indetification). Essa è pensata per facilitare la gestione degli oggetti da parte dei computer.
+L'uso infine esteso a qualsiasi oggetto capace di interagire in retem quindi partecipare alla creazione di processi digitalizzati, flessibili e intelligenti.
+
 ### Come funzione l'IoT
 
 Fondamentalmente estende agli oggetti del mondo reale la capacità di raccogliere, elaborare e scambiare dari in reti tipiche dei computer.
@@ -81,6 +90,47 @@ Parallelamente promuove un'**esperienza di cura più semplice**.
 
 A conferma di quanto promettente l'uso dell'IoT in medicina, i dati **UnivDatos ;Market** dicono che il valore del mercato sta crescendo al rimto annuo del **18.5** tra il 2021 e e il 2027.
 Inoltre, viene stimato che la teconologia porterà risparmi nel mondo dell'healthcare pari a 300 miliardi annui.
+
+## Sensori IoT, quali sono i protagonisti
+
+Cosa sono i sensori IoT?
+
+Si tratta di quei device che consentono di raccogliere i dati, che poi servono per essere analizzati ed elaborati al fine di **produrre la conoscenza necessaria per reagire e prendere decisioni**.
+Decisioni che poi possono essere eseguire dagli oggetti stessi così come dak management aziendale.
+
+Esiste una vasta gamma di dispositivi che possono essere inseriti in una rete IoT.
+Prima di tutto le **videocamere**, ma poi anche i rilevatori di luminostià, umidità e onde magnetiche.
+Inoltre i sensori di movimento e prossimità così come quelli del suono.
+Molteplici sono poi gli oggetti che già oggi e sempre più in prospettiva riguarderanno l'ambito degli wearable.
+
+## Focus sulle problematiche
+
+La semplicità delle componenti informatiche integrate in elettrodomestici e altri oggetti abilitati dall'IoT, unitamente a difetti della gestione e dell'aggiornamento aumentano la vulnerabilità a possibili attacchi attraverso la rete.
+
+Più nello specifico, la problematica sicurezza emerge in particolare per i sistemi IoT perchè spesso essi **non fanno riferimento a standard unificati**.
+Gli ambienti sono caratterizzati da **piattaforme frammentate** e varie teconologie software.
+E questo significa scelte di sviluppo differenti e rischi di esposizione agli attacci.
+
+## Quali difese si possono utilizzare
+
+Le piattaforme IoT rischiano quindi di divetare bersaglio d'elezione per attacchi informatici sempre più sofisticati.
+Le **modalità di difesa** consistono nello scegliere profotti IoT affidabili.
+Soluzioni dotate di protezioni specifiche.
+E' poi importante curare le configurazioni, usando credenziali di autenticazione sicure.
+Assicuranto, inoltre, l'applicazione di patch, aggiornando sistemi operativi, driver e programmi di gestione.
+
+Protezioni efficaci possono essere implementate a livello della retem limitando allo stretto necessario banda e altri servizi accessibili dai dispositivi IoT. Di conseguenza rilevando e segnalando agli amministratori anomali associabili a possibili infezioni.
+
+## Quanto vale il mercato in Italia e nel Mondo
+
+Nella _Worldwild Semiannual Internet of Things Spendig Guide_ pubblicata nel 2019, **IDC** prevedeva che la **spesa globale** nei progetti IoT potesse raggiungere i 1.2 trilioni di dollari nel 2022.
+Un incremento che significava una crescita media annua del 13.6% per i successivi 5 anni.
+Lo studio rivela come la spinta maggiore all'acquisto di soluzioni IoT stia provedendo daglli investimenti nei settori del manufacturing e dei trasporti. Questi sono infatti i più significativi per le attuali applicazioni IoT a livello globale.
+Entrambi i comparti destinati a raggiungere il valore di circa 150 miliardi di dollari nel 2022.
+
+Nel dettaglio, la crescita annuale media più forte (29%) si registra nei sistemi IoT per la communicazione vehicle-to-vehicle (V2V) e vehicle-to-infrastructure (V2I).
+Si tratta di piattaforme IoT che collegano i veicoli tra loro con i centri servizi.
+Molti sviluppi riguardano inoltre soluzioni IoT in ambito security e sanità.
 
 ## Fonti
 
