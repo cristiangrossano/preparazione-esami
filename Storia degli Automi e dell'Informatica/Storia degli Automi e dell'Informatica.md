@@ -1,6 +1,38 @@
-# Internet of Things
+# Intelligenza Artificiake
 
-## Introduzione
+## Introduzione AI
+
+L'intelligenza artificiale è un insieme di teconologie differenti che interagiscono per consentire alle macchine di percepire, comprendere, agire e imparare con livelli di intelligenza simili a quelli umani.  
+Ci sono tantissime tipologie di intelligenze artificiali, ognuna si evolve lungo un percorso diverso e quando impiegate insieme possono aiutare processi, aziende a raggiungere i propri obbietivi.
+
+La prima differenza la troviamo tra **AI Ristretta** e **AI generale**.
+
+La maggior parte delle applicazioni che utilizziamo ogni giorno si ricollega al concetto di AI ristretta che eseguono azioni e compiti strettamente correlati.  
+I sistemi sono potenti, però essi tendono a concentrarsi sulla creazione dell'efficienza.
+
+L'intelligenza artificiale generale è più simile a ciò che vediamo nei film di fantascienza, dove macchine senzienti emulano l'intelligenza umana, pensando in modo strategico, astratto e creativo con la capacità di gestire diversi compiti.
+
+Secondo il ricercatore **Arend Hintze** potremmo sviluppare Intelligenze Artificiali sempre migliori superando i confini che definiscono 4 tipi diversi e che separano quest'ultime dagli umani.
+
+1. Machine Reattive;
+2. Macchine con Memoria Limitata;
+3. Teoria della Mente;
+4. Macchine Autocoscienti.
+
+### Machine Reattive
+
+I sistemi più semplici di IA sono definiti reattivi, non si basano su "ricordi" per prendere decisioni.  
+Un esempio è quello di **Deep Blue**, una IA che è riuscita a sconfiggere un campione di scacchi.  
+Questa IA riconosce le posizioni degli scacchi, fare previsioni delle mosse avversarie e prendere la decisione migliore.  
+Non ha una memoria, analizza il presente e sceglie la sua prossima mossa.  
+Questa tipologia di intelligenza è utilizzabile solo per quello per cui è stata programmata e si comportano nello stesso identico modo ogni volta che devono agire.
+
+### Macchine con memoria limitata
+
+Queste macchine possono vasarsi sul passato, osservano e anallizano.  
+Prendendo come esempio gli autoveicoli autonomi osservano e analizzano velocità, direzione delle altre autovetture in strada.
+
+## Introduzione IoT
 
 Il termine **Internet of Things** definisce la capacità degli oggetti di diversa natura di essere interconnessi in rete per inviare e ricevere informazioni utili a gestire un determinato concetto.  
 Questo permette di massimizzare le capacità di raccolta e di utilizzo dei dati da una _moltitudine di sorgenti_ a vantaggio di una maggiore **digitalizzazione e automatizzazione dei processi**.  
@@ -111,7 +143,9 @@ Grazie alla capacità di machine learning e intelligenza artificiale diventa ver
 In questo ambito in situazioni di contesti d'uso differenti si può decidere se trattare i dati il più vicino alla fonte possibile tramite l'Edge Computing piuttosto che su un unico sistema di monitoraggio centrale.  
 Tramite l'Edge Computing si avrebbero delle elaborazioni in tempo reale per essere sempre pronti in caso di criticità nel compito svolto, si aumenterebbe quindi notevolmente l'efficacia e l'efficienza dei processi all'interno dell'azienda e infine il risparmio sulla banda, notevolmente diverso tra un dispositivo adiacente o integrato nel macchinario e una soluzione cloud.  
 Molto spesso però si utilizza una soluzione **ibrida**, che è essenziale per migliorare l'Intelligenza Artificiale del dispositivo locale inviando aggregati di dati nel cloud.  
-Dati anomali in locale potrebbero essere valutati come **falsi positivi** e quindi irrilevanti se interpretati solamente in locale e in un lasso di tempo molto breve.  
+Dati anomali in locale potrebbero essere valutati come **falsi positivi** e quindi irrilevanti se interpretati solamente in locale e in un lasso di tempo molto breve.
+
+Abbiamo nominato l'Industria 4.0, ma effettivamente di cosa si tratta?
 
 > **Industria 4.0**
 > E' il nome che viene attribuito alle aziende partecipi della "quarta rivoluzione industriale".
@@ -129,7 +163,7 @@ Esse promuovono la flessibilità nella creazione dei servizi a valore aggiunto n
 L'integrazione di dispositivi connessi da la possibilità di **semplificare la relazione e gli scambi informativi** con i clienti in ambito assicurativo.  
 Si tratta per esempio dell'attivazione di **soluzioni ad hoc** per aumentare la sicurezza dei veicoli con sistemi che controllano necessità di manutenzioni.  
 Nel caso di una assicurazione **smart** si riducono per esempio i rischi di furto.  
-Le compagnie, inoltre, in tali contesti possono formulare servizi che supportino gli abitanti ad inalzare la sicurezza e assistenza in caso di problemi.
+Le compagnie, inoltre, in tali contesti possono formulare servizi che supportino gli abitanti a inalzare la sicurezza e assistenza in caso di problemi.
 
 ### Trasporti ed Autovetture
 
@@ -149,7 +183,7 @@ Tutto questo a vantaggio dell'ottimizzazione di tempi d'affidabilità, ma anche 
 
 Definibile anche come **Internet of Medical Things**, l'IoT applicato alla medicina ha una elevata serie di potenzialità.  
 Esse consistono, per esempio, nel controllo a distanza dei dispositivi a grandi macchinari medici.  
-I dispositivi inoltre, agevolano in una migliore relazione con i pazienti, il monitoraggio da remoto dei parametri vitali, per **rilevare costantemente i dati necessari ad indicare i problemi**.  
+I dispositivi inoltre, agevolano in una migliore relazione con i pazienti, il monitoraggio da remoto dei parametri vitali, per **rilevare costantemente i dati necessari a indicare i problemi**.  
 L'IoT nel mondo della medicina, in sintesi, permette di **innalzare il livello di assistenza in ottica predittiva**.  
 Parallelamente promuove un'**esperienza di cura più semplice**.  
 A conferma di quanto promettente l'uso dell'IoT in medicina, i dati **Univos Market** dicono che il valore del mercato sta crescendo ad un ritmo annuo del **18,5** tra il 2021 e il 2027.
@@ -198,6 +232,8 @@ Si trattano di piattaforme che collegano i veicoli tra loro con i centri di serv
 
 ## Fonti
 
+- [https://www.controcorrenteblog.com/2016/12/28/4-tipi-intelligenza-artificiale-per-comprenderla-meglio/]
 - [https://www.zerounoweb.it/analytics/big-data/internet-of-things-iot-come-funziona/]
 - [https://new.siemens.com/global/en/products/automation/topic-areas/industrial-edge/production-machines.html?gclid=CjwKCAjwqauVBhBGEiwAXOepkZAS7hXhJXYZa-Zp5mrixJR8ZrPNsQQvUPjQBzxtnBx51UsYO6P3BhoChYAQAvD_BwE&acz=1]
 - [https://www.eng.it/resources/whitepaper/doc/iot/ENG21_WP_IoT_ita_web.pdf]
+- [https://www.accenture.com/it-it/insights/artificial-intelligence-summary-index?c=acn_glb_brandexpressiongoogle_12871322&n=psgs_0322&gclid=Cj0KCQjwzLCVBhD3ARIsAPKYTcSUp1wDjvrIqkQPnxTFVvopqWWSVRUjtIMc3fD9kYZd_mUXT_3hTaoaAo58EALw_wcB]
