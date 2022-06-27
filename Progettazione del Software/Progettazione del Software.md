@@ -381,9 +381,9 @@ public class GestioneContiCorrenti {
 
 ### Problema: modificabilità del software
 
-In quest'implementazione di `` ` insiemeinteri ` ``, le variabili utilizzate per la gesione dei dati sono dichiarate `` ` public ` ``, quindi le applicazioni che usano tale insieme vengono implementate in base alla sua rappresentazione.
+In quest'implementazione di ` ` `insiemeinteri` ` `, le variabili utilizzate per la gesione dei dati sono dichiarate ` ` `public` ` `, quindi le applicazioni che usano tale insieme vengono implementate in base alla sua rappresentazione.
 
-Se tale rappresentazione viene cambiata (ad esempio, usando una lista concatenata invece di un `` ` array ` ``), pur mantenendo il significato inalterato,
+Se tale rappresentazione viene cambiata (ad esempio, usando una lista concatenata invece di un ` ` `array` ` `), pur mantenendo il significato inalterato,
 
 ```java
 public class NodoListaInteri {
@@ -461,7 +461,7 @@ In particolare, vanno modificate _tutte e solo_ le istruzioni che facevano rifer
 
 Se più funzioni possono accedeere ai dati liberamente, aumentano le possibilità di avere problemi di correttezza nell'_uso_ e nella _modifica_ delle informazioni.  
 Ad esempio, considerando la rappresentazione basata su **array** di
-`` `InsiemeDiInteri` ``,
+` ` `InsiemeDiInteri` ` `,
 
 ```java
 public class InsiemeDiInteri {
@@ -481,7 +481,7 @@ insieme.n--;
 insieme.elenco[posizione] = insieme.elenco[insieme.n];
 ```
 
-ma nella _classe_ `` `GestioneContiCorrenti` `` viene invece usata una convenzione diversa, e _non compatibile_, che prevede di sostituire il dato eliminato con uno 0:
+ma nella _classe_ ` ` `GestioneContiCorrenti` ` ` viene invece usata una convenzione diversa, e _non compatibile_, che prevede di sostituire il dato eliminato con uno 0:
 
 ```java
 public class GestioneContiCorrenti {
@@ -501,7 +501,7 @@ Di conseguenza, eventuali altri metodi che operano su `insiemConti` potrebbero c
 
 ### Problema: Riuso del Software
 
-Nell'implementazione delle classi che usano `InsiemeDiInteri`, lo stesso codice per la ricerca è scritto 3 volte (`cercaTarga, cercaMatricola, cercaConto). Supponendo che tale codice sia stato copiato e incollato, per evitare di doverlo riscrivere da zero ogni volta, rimane comunque un problema: se esso contiene errori, questi dovranno essere corretti manualmente in ciascuno dei 3 metodi. La soluzione è definire`InsiemeDiInteri``` come un **tipo di dato astratto**. Esso:
+Nell'implementazione delle classi che usano `InsiemeDiInteri` , lo stesso codice per la ricerca è scritto 3 volte ( `cercaTarga, cercaMatricola, cercaConto). Supponendo che tale codice sia stato copiato e incollato, per evitare di doverlo riscrivere da zero ogni volta, rimane comunque un problema: se esso contiene errori, questi dovranno essere corretti manualmente in ciascuno dei 3 metodi. La soluzione è definire` InsiemeDiInteri``` come un **tipo di dato astratto**. Esso:
 
 - è dotato di metodi che portano sempre agli stessi risultati, indipendentemente dalla rappresentazione scelta;
 - può essere riutilizzato da molti programmi, senza bisogno di modificarlo.
@@ -520,7 +520,7 @@ Inoltre, grazie al riuso, si ottengono ulteriori benefici:
 - minore costo;
 - minore tempo di sviluppo.
 
-Un esempio di buona implementazione di ```InsiemeDiInteri``` è:
+Un esempio di buona implementazione di `InsiemeDiInteri` è:
 
 ```java
 public class InsiemeDiInteri {
@@ -649,19 +649,19 @@ public String toString(){
 
 Le variabili sono private in modo che sia possibile accedere ai dati solo attraverso l'interfaccia del tipo di dato astratto.
 
-Il metodo ```ricerca``` è privato, perchè restituisce un numero (l'indice del valore cercato) che ha senso solo se rapportato a una struttura interna (l'array ```elenco```).  
+Il metodo `ricerca` è privato, perchè restituisce un numero (l'indice del valore cercato) che ha senso solo se rapportato a una struttura interna (l'array `elenco` ).  
 Infatti, se si cambiasse la rappresentazione dei dati, cambierebbe anche il tipo restituito da questo metodo.  
-Ad esempio, per una lista verrebbe resrituito un riferimento a un nodo, che, se ottenuto da metodi di altre classi, permetterebbe addirittura di accedere alla lista bypassando l'interfaccia ```InsiemeDiCaratteri```.  
+Ad esempio, per una lista verrebbe resrituito un riferimento a un nodo, che, se ottenuto da metodi di altre classi, permetterebbe addirittura di accedere alla lista bypassando l'interfaccia `InsiemeDiCaratteri` .  
 Sono definiti due costruttori:
 
 - un costruttore per _default_, che crea un insieme vuoto;
-- un costruttore per _copia_, che permette di ottenere una copia di un insieme esistente.  
+- un costruttore per _copia_, che permette di ottenere una copia di un insieme esistente.
 
 In questo caso, i costruttori sono pubblici, ma non è detto che sia sempre così: restringere l'accesso ai costruttori è necessario se si vuole controllare come e quando vengono creati gli oggetti in una classe.
 
-Il metodo ```finalize``` è un _finalizzatore_: esso esprime le "ultime volontà" dell'oggetto e viene eseguiro automaticamente subito prima che quest'ultimo venga distrutto.  
+Il metodo `finalize` è un _finalizzatore_: esso esprime le "ultime volontà" dell'oggetto e viene eseguiro automaticamente subito prima che quest'ultimo venga distrutto.
 
-L'esistenza del metodo ```ePieno``` non obbliga a usare rappresentazioni con capacità limitate.  
+L'esistenza del metodo `ePieno` non obbliga a usare rappresentazioni con capacità limitate.  
 Infatti, se si sostituisse l'array con una struttura di dati a capacità illimitata (quale ad esempio una lista), l'implementazione di questo metodo potrebbe semplicemente diventare:
 
 ```java
@@ -670,52 +670,52 @@ public boolean ePieno(){
 }
 ```
 
-i metodi ```inserimento```, ```eliminazione```, ```unione```, ```differenza``` e ```intersezione``` modificano l'insieme di partenza. In alternativa, si potrebbe scegliere di lasciarlo inalterato e restituire invece un nuovo oggetto ```InsiemeDiInteri``` aggiornato.  
+i metodi `inserimento` , `eliminazione` , `unione` , `differenza` e `intersezione` modificano l'insieme di partenza. In alternativa, si potrebbe scegliere di lasciarlo inalterato e restituire invece un nuovo oggetto `InsiemeDiInteri` aggiornato.  
 Questa seconda opzione è meno efficiente , perchè è necessaria una copia dell'insieme di partenza, ma ha alcuni vantaggi:
 
 - non ha _effetti collaterali_;
-- la semantica delle operazioni corrisponde a quelle che hanno nella teoria degli insiemi (ad esempio A ∪ B costruisce un nuovo insieme, senza modificare A).  
+- la semantica delle operazioni corrisponde a quelle che hanno nella teoria degli insiemi (ad esempio A ∪ B costruisce un nuovo insieme, senza modificare A).
 
 La scelta tra le due soluzioni dipende dalle esigenze dell'applicazione, ma, una volra selezionata una strategia, essa dovrebbe essere adottata per tutti i metodi simili:
 
--se, per esempio, ```inserimento``` modificasse l'insieme di partenza, allora dovrebbe farlo anche ```eliminazione```;
-se ```unione```, ad esempio, restituisse un nuovo insieme, allora dovrebbero farlo anche ```differenza``` e ```intersezione```.  
+-se, per esempio, `inserimento` modificasse l'insieme di partenza, allora dovrebbe farlo anche `eliminazione` ;
+se `unione` , ad esempio, restituisse un nuovo insieme, allora dovrebbero farlo anche `differenza` e `intersezione` .
 
-Molti metodi della classe sono implementati sfruttando altri suoi metodi. Infatti il riuso del codice deve essere faatto ptima di tutto nella classe stessa, oltre che in altre classi.  
+Molti metodi della classe sono implementati sfruttando altri suoi metodi. Infatti il riuso del codice deve essere faatto ptima di tutto nella classe stessa, oltre che in altre classi.
 
-Non sono definiti i metodi di lettura o di stampa. Infatti una classe di questo genere _non_ deve eseguire I/O: saranno invece le applicazioni che la utilizzano a fare da tramite tra l'utenet e questa classe ad esempio, nei metodi ```main```)
+Non sono definiti i metodi di lettura o di stampa. Infatti una classe di questo genere _non_ deve eseguire I/O: saranno invece le applicazioni che la utilizzano a fare da tramite tra l'utenet e questa classe ad esempio, nei metodi `main` )
 
 ## Elementi di classe e di istanza
 
-Le **classi** e gli **oggetti** contengono come **elementi**_
+Le **classi** e gli **oggetti** contengono come **elementi**\_
 
 - dati, detti **dati membro**;
 - metodi, detti **metodi membro**.
 
-Quando ci si riferisce alla classe o a una sua istanza, si dicono **non membro** tutti i dati e i metodi esterni alla classe (ad esempio quelli appartenenti ad altre classi).  
+Quando ci si riferisce alla classe o a una sua istanza, si dicono **non membro** tutti i dati e i metodi esterni alla classe (ad esempio quelli appartenenti ad altre classi).
 
-Gli elementi si suddividono inoltre in:  
+Gli elementi si suddividono inoltre in:
 
 - elementi **di istanza**, di cui esiste una copia indipendente per ogni oggetto che è istanza della classe;
-- elementi **di classe** (```stati```), di cui esiste un'unica copia, comune a tutte le istanze e accessibile anche direttamente dalla classe, senza bisofno di riferimento a un'istanza.  
+- elementi **di classe** (`stati`), di cui esiste un'unica copia, comune a tutte le istanze e accessibile anche direttamente dalla classe, senza bisofno di riferimento a un'istanza.
 
-Gli elementi di classe introducono quindi una dipendenza tra la classe e le sue istanze.  
+Gli elementi di classe introducono quindi una dipendenza tra la classe e le sue istanze.
 
 ### Visibilità
 
 Ciascun elemento di una classe può avere visibilità:
 
-- **pubblica** (```public```): visibile a tutte le classi e a tutti gli oggetti. Essa è _assolutamente sconsigliata_ per i dati di un membro;
-- **protetta** (```protected```): accessbile solo ai metodi:
+- **pubblica** (`public`): visibile a tutte le classi e a tutti gli oggetti. Essa è _assolutamente sconsigliata_ per i dati di un membro;
+- **protetta** (`protected`): accessbile solo ai metodi:
   - della classe (e dalle sue istanze);
   - delle sue sottoclassi (e delle loro istanze);
   - delle classi appartenenti allo stesso package (e delle loro istanze).
 
-In pratica, questa visibilità è leggermente più ristretta di ```public```: le uniche classi che non possono vedere un membro protetto sono quelle di altri package che non sono sottoclassi.  
-Ciò nonostante, è comunque accettabile definire i dati membro protetti, poichè in questo modo si esplicita l'intenzione di renderli accessibili alle sottoclassi.  
+In pratica, questa visibilità è leggermente più ristretta di `public` : le uniche classi che non possono vedere un membro protetto sono quelle di altri package che non sono sottoclassi.  
+Ciò nonostante, è comunque accettabile definire i dati membro protetti, poichè in questo modo si esplicita l'intenzione di renderli accessibili alle sottoclassi.
 
 - **Limitata al package** (che è la visibilità di default, a cui non corrisponde una parola chiave): visibile a tutte le classi dello stesso package e alle loro istanze. Anche questa visibilità è _assolutamente sconsigliata_ per i dati membro.
-- **Privata** (```private```): accessibile solo all'interno della classe e delle sue istanze. E' consigliato che i dati membro siano privati.  
+- **Privata** (`private`): accessibile solo all'interno della classe e delle sue istanze. E' consigliato che i dati membro siano privati.
 
 ### Categorie di Metodi Membro
 
@@ -723,30 +723,33 @@ Ciò nonostante, è comunque accettabile definire i dati membro protetti, poich�
 - **Selettore** ("get"): è un metodo membro non privato che restituisce il valore di un dato membro senza modificarlo.
 - **Metodo di Servizio** ("utility"): è un metodo membro privato.
 
-Nel linguaggio C++ (ma non in Java) è possibile marcare esplicitamente i metodi selettori, mediante la parola chiave ```const```.  
+Nel linguaggio C++ (ma non in Java) è possibile marcare esplicitamente i metodi selettori, mediante la parola chiave `const` .  
 Ad esempio:
 
 ```c++
 class Test {
   private: in value;
-  public: 
+  public:
+
     Test(int v = 0) { value = v; }
     int getValue() const { return value; }
+
 }
+
 ```
 
-Il compilatore verifica che nel corpo di un metodo ```const``` non siano presenti istruzioni di modifica dei dati. In questo modo, l'interfaccia della classe garantisce agli utenti che il metodo non modifica mai i dati.  
+Il compilatore verifica che nel corpo di un metodo `const` non siano presenti istruzioni di modifica dei dati. In questo modo, l'interfaccia della classe garantisce agli utenti che il metodo non modifica mai i dati.
 
-### Relazione ```friend``` in C++
+### Relazione `friend` in C++
 
-In C++, una classe può dichiarare delle funzioni ```friend```: esse, pur essendo esterne alla classe stessa, possono accedere direttamente ai suoi elementi non pubblici.  
+In C++, una classe può dichiarare delle funzioni `friend`: esse, pur essendo esterne alla classe stessa, possono accedere direttamente ai suoi elementi non pubblici.  
 Ad esempio:
 
 ```c++
 class Rectangle {
-  private: 
+  private:
     int width, height;
-  public: 
+  public:
     Recatngle(){
       Rectangle(int x, int y) : width(x), height(y) {}
       int area() const { return width * height; }
@@ -768,45 +771,46 @@ class Rectangle {
 }
 ```
 
-La **relazione friend**_
+La **relazione friend**\_
 
-- non è simmetrica, (ad esempio ```Rectangle``` può accedere agli elementi privati di ```Square```, ma non viceversa);
+- non è simmetrica, (ad esempio `Rectangle` può accedere agli elementi privati di `Square`, ma non viceversa);
 - non è transitiva;
-- non viene ereditata (per esempio, eventuali sottoclassi di ```Rectangle``` _non_ potrebbero accedere agli elementi di ```Square```).
+- non viene ereditata (per esempio, eventuali sottoclassi di `Rectangle` _non_ potrebbero accedere agli elementi di `Square`).
 
 Essa può essere usata per:
 
-- facilitare la scrittura del codice (permettendo di scrivere ```x.y``` invece di ```x.getY()```, ecc), ma questo non è un uso ideale perchè rende visibile l'implementazione della classe, introducendo quindi del "debito tecnico";
+- facilitare la scrittura del codice (permettendo di scrivere `x.y` invece di `x.getY()`, ecc), ma questo non è un uso ideale perchè rende visibile l'implementazione della classe, introducendo quindi del "debito tecnico";
 - permettere un accesso più efficiente ai dati non pubblici, senza il peso aggiuntivo delle chiamate ai metodi selettori/estensori, che può essere eccessivo se ci sono requisiti particolari di performance (in tempo e/o spazio, perchè la chiamata di un metodo richiede non solo un certo tempo, ma anche l'allocazione in memoria di un record d'attivazione);
 
 In generale, è comunque meglio non abusarne.
 
 ### Finalizzatore
 
-Il **finalizzatore** è un metodo membro, ```void finalize()```, che viene chiamato automaticamente subito prima che un oggetto venga distrutto dal _garbage collector_. Esso esprime le "ultime volontà" dell'oggetto.  
-Il garbage collector puà distruggere un oggetto a partire dal momento in cui non ci sono più riferimenti che permettono di accedervi (perchè si è usciti dall'ambito in cui tali riferimenti sono stati dichiarati, e/o perchè i riferimenti sono stati sovvrascritti, ad esempio assegnandovi un valore ```null```).  
-Il momento preciso in cui avvengono effettivamente l'invocazione di ```finalize``` e la distribuzione dell'oggetto, però, non sono controllabili dal programmatore nè prevedibili.
-> Per qeusto e altri motivi a partire da Java 9 il metodo ```finalize``` è deprecato.
-In alternativa, il finalizzatore può essere chiamato esplicitamente dal programmatore per distruggere manualmente un oggetto.  
+Il **finalizzatore** è un metodo membro, `void finalize()` , che viene chiamato automaticamente subito prima che un oggetto venga distrutto dal _garbage collector_. Esso esprime le "ultime volontà" dell'oggetto.  
+Il garbage collector puà distruggere un oggetto a partire dal momento in cui non ci sono più riferimenti che permettono di accedervi (perchè si è usciti dall'ambito in cui tali riferimenti sono stati dichiarati, e/o perchè i riferimenti sono stati sovvrascritti, ad esempio assegnandovi un valore `null` ).  
+Il momento preciso in cui avvengono effettivamente l'invocazione di `finalize` e la distribuzione dell'oggetto, però, non sono controllabili dal programmatore nè prevedibili.
+
+> Per qeusto e altri motivi a partire da Java 9 il metodo `finalize` è deprecato.
+> In alternativa, il finalizzatore può essere chiamato esplicitamente dal programmatore per distruggere manualmente un oggetto.
 
 ### Distruttori in C++
 
 Nel linguaggio C++, i metodi finalizzatori sono chiamati _distruttori_.  
 A differenza dei finalizzatori Java, però, il distruttore di un oggetto viene invocato _immediatamente_ quando si esce dall'ambito in cui tale oggetto è dichiarato.  
-Per questo il funzionamento dei distruttori è completamente prevedibile.  
+Per questo il funzionamento dei distruttori è completamente prevedibile.
 
 ## Ereditarietà
 
-Gli oggetti di una classe possono esseere anche oggetti di un'altra classe.  
-Ad esempio, gli oggetti di classe ```Studente``` sono casi particolari degli oggetti di classe ```Persona```.  
+Gli oggetti di una classe possono essere anche oggetti di un'altra classe.  
+Ad esempio, gli oggetti di classe `Studente` sono casi particolari degli oggetti di classe `Persona` .  
 Allora:
 
-- ```Studente``` si dice **sottoclasse** di ```Persona```;
-- ```Persona``` si dice **superclasse** di ```Studente```.
+- `Studente` si dice **sottoclasse** di `Persona`;
+- `Persona` si dice **superclasse** di `Studente`.
 
-In generale, la sottoclasse **eredita** tutte le priorità della superclasse, e può inoltre averne delle altre: per questo, essa è una **specializzazione** della superclasse. Inolter la sottoclasse può anche **ridefinire** alcune proprietà della superclasse.  
+In generale, la sottoclasse **eredita** tutte le priorità della superclasse, e può inoltre averne delle altre: per questo, essa è una **specializzazione** della superclasse. Inoltre la sottoclasse può anche **ridefinire** alcune proprietà della superclasse.  
 Concettualmente, la relazione tra istanze della superclasse e quelle della sottoclasse corrisponde alla relazione tra insieme e sottoinsieme.  
-In alternativa, si può considerare una relazione di tipo "essere": _ogni istanza della sottoclasse è istanza della superclasse_ (ad esempio, ogni ```Studente``` è una ```Persona```), ma non viceversa (non è vero che ogni ```Persona``` è ```Studente```).  
+In alternativa, si può considerare una relazione di tipo "essere": _ogni istanza della sottoclasse è istanza della superclasse_ (ad esempio, ogni `Studente` è una `Persona` ), ma non viceversa (non è vero che ogni `Persona` è `Studente`).
 
 ### Vantaggi e Svantaggi
 
@@ -819,11 +823,11 @@ L'ereditarietà è un meccanismo di programmazione molto potente.
   - la modificabilità (perchè non esistono più copie dello stesso codice).
 - Aiuta a organizzare i componenti software, mostrando esplicitamente relazioni tra di loro, quindi favorendo la comprensibilità.
 
-Tuttabia, proèrie per questo la sua potenza, l'ereditarietà deve essere usata con cautela, altrimenti si rischia di commettere errori che si possono manifestare in fase di compilazione, o peggio in fase di esecuzione.  
+Tuttabia, proèrie per questo la sua potenza, l'ereditarietà deve essere usata con cautela, altrimenti si rischia di commettere errori che si possono manifestare in fase di compilazione, o peggio in fase di esecuzione.
 
 ### Riferimento alla Superclasse
 
-All'interno dei metodi di una sottoclasse, è possibile riferirsi alla superclasse usando la parola chiave ```super```.  
+All'interno dei metodi di una sottoclasse, è possibile riferirsi alla superclasse usando la parola chiave `super` .  
 Ciò è utile, ad esempio, quando si ridefiniscono un metodo nella sottoclasse e al suo interno si vuole invocare il metodo originale della superclasse:
 
 ```java
@@ -842,13 +846,13 @@ class SottoClasse extends SuperClasse {
 }
 ```
 
-Infatti, se si scrivesse semplicemente ```metodo()```, questa sarebbe una chiama ricorsiva al metodo ridefinito stesso.  
+Infatti, se si scrivesse semplicemente `metodo()` , questa sarebbe una chiama ricorsiva al metodo ridefinito stesso.  
 In un metodo ridefinito scritto in questo modo:
 
-- ```super.metodo()``` effettua le operazioni necessarie sui dati membro ereditati dalla superclasse (alcuni dei quali potrebbero essere privati, quindi tale chiamata potrebbe essere l'unico modo per accedervi);
+- `super.metodo()` effettua le operazioni necessarie sui dati membro ereditati dalla superclasse (alcuni dei quali potrebbero essere privati, quindi tale chiamata potrebbe essere l'unico modo per accedervi);
 - la parte restante del metodo effettua le operazioni specializzate per la sottoclasse.
 
-Java non permette di riferirsi alla superclasse della superclasse ```super.super``` è un errrore di sintassi.  
+Java non permette di riferirsi alla superclasse della superclasse `super.super` è un errrore di sintassi.
 
 ### Costruttori e finalizzatori di una sottoclasse
 
@@ -857,16 +861,16 @@ Ogni oggetto sottoclasse è composto da:
 - un oggetto superclasse;
 - gli elementi aggiunti nella sottoclasse.
 
-Per questo , all'inizio dell'esecuzione di un costruttore della sottoclasse viene _sempre_ chiamato un costruttore della superclasse.  
+Per questo , all'inizio dell'esecuzione di un costruttore della sottoclasse viene _sempre_ chiamato un costruttore della superclasse.
 
-- Si può effettuare una chiamata esplicita, con la sintassi ```super(argomenti)```, scritta proprio come prima istruzione del costruttore;
+- Si può effettuare una chiamata esplicita, con la sintassi `super(argomenti)`, scritta proprio come prima istruzione del costruttore;
 - In assenza di una chiamata esplicita, viene chiamato implicitamente il costruttore di default della superclasse.
 
-Nel finalizzatore di una sottoclasse, è buona norma chiamare, come ultima istruzione il finalizzatore della superclasse (```super.finalize()```), ma esso non viene invocato in automatico (cosa che invece avviene per i distruttori in C++).
+Nel finalizzatore di una sottoclasse, è buona norma chiamare, come ultima istruzione il finalizzatore della superclasse ( `super.finalize()` ), ma esso non viene invocato in automatico (cosa che invece avviene per i distruttori in C++).
 
 ### Gerarchia di ereditarietà
 
-L'ereditarietà è una relazione transitiva: se ```A``` è superclasse di ```B``` e ```B``` è superclasse di ```C```,
+L'ereditarietà è una relazione transitiva: se `A` è superclasse di `B` e `B` è superclasse di `C` ,
 
 ```java
 class A { /* ... */ }
@@ -874,13 +878,13 @@ class B extends A { /* ... */ }
 class C extends B { /* ... */ }
 ```
 
-allora ```A``` è superclasse di ```C```, cioè ```C``` eredita (indirettamente) da ```A```.  
+allora `A` è superclasse di `C` , cioè `C` eredita (indirettamente) da `A` .
 
-Per le classi, Java supporta solo l'_ereditarietà singola_: una classe può ereditare solo da una sola classe. Di conseguenza, la gerarchia di ereditarietà è un albero (_n_-ario, perchè ogni classe può avere un numero _n_ qualsiasi di sottoclassi), la cui radice è la classe ```Object```, dalla quale ereditano (direttamente o indirettamente) tutte le altre.  
+Per le classi, Java supporta solo l'_ereditarietà singola_: una classe può ereditare solo da una sola classe. Di conseguenza, la gerarchia di ereditarietà è un albero (_n_-ario, perchè ogni classe può avere un numero _n_ qualsiasi di sottoclassi), la cui radice è la classe `Object` , dalla quale ereditano (direttamente o indirettamente) tutte le altre.
 
 I progettisti del linguaggio Java hanno sccelto di non permettere l'_ereditarietà multipla_ per le classi perchè essa presenta alcuni problemi:
 
-- In una gerarchia come (vedi immagine sotto) i dati metodi e i metodi definiti nella classe ```A``` sono ereditati sia da ```B``` che da ```C```, quindi ```D``` en eredita due copie. Così oltre allo spreco di memoria, si ha un'ambiguità quando si accede a tali dati/metodi su un'istanza di ```D```: l'accesso si potrebbe riferire alla versione di ```B```, oppure a quella di ```C``` (o anche a quella di ```A```, se è diversa dalle altre due perchè il dato/metodo è stato ridefinitio in ```B``` e/o in ```C```). Ci sono dei modi per disambiguare, am essi introducono una ulteriore complessità del linguaggio;
+- In una gerarchia come (vedi immagine sotto) i dati metodi e i metodi definiti nella classe `A` sono ereditati sia da `B` che da `C`, quindi `D` en eredita due copie. Così oltre allo spreco di memoria, si ha un'ambiguità quando si accede a tali dati/metodi su un'istanza di `D`: l'accesso si potrebbe riferire alla versione di `B`, oppure a quella di `C` (o anche a quella di `A`, se è diversa dalle altre due perchè il dato/metodo è stato ridefinitio in `B` e/o in `C`). Ci sono dei modi per disambiguare, am essi introducono una ulteriore complessità del linguaggio;
 
 ```mermaid
 graph TD;
@@ -892,46 +896,46 @@ C --> A;
 
 - La ricerca dei metodi da eseguire è più complessa, dato che possono esserci più percorsi lungo cui risalire la gerarchia (perchè essa non è necessariamente un albero).
 
-### Metodi e classi ```final```
+### Metodi e classi `final`
 
-La parola chiave ```final``` permette, in generale, di fissare il significato di un'entità di programma, impedendo che esso venga ridefinito:
+La parola chiave `final` permette, in generale, di fissare il significato di un'entità di programma, impedendo che esso venga ridefinito:
 
-- i metodi ```final``` non possono essere ridefiniti nelle sottoclassi;
-- le classi ```final``` non possono essere specializzate, cioè non è possibile creare sottoclassi che ereditano tale classe.  
+- i metodi `final` non possono essere ridefiniti nelle sottoclassi;
+- le classi `final` non possono essere specializzate, cioè non è possibile creare sottoclassi che ereditano tale classe.
 
-I metodi ```static``` sono anche ```final```, quindi non possono solitamente essere ridefiniti.  
-I metodi ```private```, invece, possono sempre essere ridefiniti, anche se sono ```final``` (o ```static```), perchè non sono visibili nelle sottoclassi.  
+I metodi `static` sono anche `final` , quindi non possono solitamente essere ridefiniti.  
+I metodi `private` , invece, possono sempre essere ridefiniti, anche se sono `final` (o `static` ), perchè non sono visibili nelle sottoclassi.
 
-### Metodi e classi ```abstract```
+### Metodi e classi `abstract`
 
-- I metodi ```abstract``` non hanno un corpo, quindi devono per forza essere ridefiniti nelle sottoclassi;
-- Le classi ```abstract``` non possono essere istanziate. Per utilizzarle, bisogna quindi creare delle sottoclassi concrete (non ```abstract```) e istanziare quelle.  
+- I metodi `abstract` non hanno un corpo, quindi devono per forza essere ridefiniti nelle sottoclassi;
+- Le classi `abstract` non possono essere istanziate. Per utilizzarle, bisogna quindi creare delle sottoclassi concrete (non `abstract`) e istanziare quelle.
 
-Una classe _deve_ essere dichiarata ```abstract``` se contiene almeno un metodo ```abstract```, ma può essere dichiarata ```abstract``` anche se contiene solo metodi concreti (ciò può essere utile per realizzare una gerarchia di classi enlla quale tutte le istanze devono essere delle sottoclassi: ad esempio, data una classe ```Studente``` con due sottoclassi ```StudenteTriennale``` e ```StudenteMagistrale```, non ha senso creare studenti generici, che non sono nè alla triennale nè alla magistrale, quindi è meglio che ```Studente``` sia dichiarato ```abstract```, anche se magari non contiene altri metodi astratti).  
+Una classe _deve_ essere dichiarata `abstract` se contiene almeno un metodo `abstract` , ma può essere dichiarata `abstract` anche se contiene solo metodi concreti (ciò può essere utile per realizzare una gerarchia di classi enlla quale tutte le istanze devono essere delle sottoclassi: ad esempio, data una classe `Studente` con due sottoclassi `StudenteTriennale` e `StudenteMagistrale` , non ha senso creare studenti generici, che non sono nè alla triennale nè alla magistrale, quindi è meglio che `Studente` sia dichiarato `abstract` , anche se magari non contiene altri metodi astratti).
 
-Nonostante non si possano istanziare, le classi astratte possono contenere dtti membro, anche privati, quindi devono comunque avere dei costruttori, per inizializzare tali dati si costruiscono oggetti delle sottollassi.  
+Nonostante non si possano istanziare, le classi astratte possono contenere dtti membro, anche privati, quindi devono comunque avere dei costruttori, per inizializzare tali dati si costruiscono oggetti delle sottollassi.
 
 ### Interfacce
 
 Le interfacce sono effettivamente degli "scheletri" di classi, in cui:
 
-- tutti i metodi sono ```public abstract```;
-- tutti i dati sono ```public static final``` (cioè costanti).
+- tutti i metodi sono `public abstract`;
+- tutti i dati sono `public static final` (cioè costanti).
 
-ancge se non è scritto esplicitamente.  
+ancge se non è scritto esplicitamente.
 
-Tra le interfacce. è permessa l'ereditarietà multipla: un'interfaccia può ereditare da un numero qualsiasi di altre interfacce. Inoltre, una classe può implementare ("ereditare" da) più interfacce.  
+Tra le interfacce. è permessa l'ereditarietà multipla: un'interfaccia può ereditare da un numero qualsiasi di altre interfacce. Inoltre, una classe può implementare ("ereditare" da) più interfacce.
 
-Poichè le interfacce non contengono metodi concreti o dati non costanti, non si hanno gli stessi problemi associati all'ereditarietà multipla tra classi.  
+Poichè le interfacce non contengono metodi concreti o dati non costanti, non si hanno gli stessi problemi associati all'ereditarietà multipla tra classi.
 
 ### Polimorfismo
 
-Un oggetto di una sottoclasse può essere trattato come un oggetto di una qualsiasi delle superclassi. Viceversa, se si tratta di un oggetto della superclasse come un oggetto delle sue sottoclassi si possono avere errori.  
+Un oggetto di una sottoclasse può essere trattato come un oggetto di una qualsiasi delle superclassi. Viceversa, se si tratta di un oggetto della superclasse come un oggetto delle sue sottoclassi si possono avere errori.
 
-Per questo, in Java, un riferimento ad un oggetto può essere assegnato a un riferimento a un oggetto di una delle sue superclassi, ma non si può fare il contrario (è un errore in fase di compilazione).  
+Per questo, in Java, un riferimento ad un oggetto può essere assegnato a un riferimento a un oggetto di una delle sue superclassi, ma non si può fare il contrario (è un errore in fase di compilazione).
 
 Siccome il riferimento a un oggetto di una superclasse è una variabile, può puntare a oggetti diversi durante l'esecuzione di un programma.  
-Tali oggetti possono anche essere di sottoclassi diverse cioè possono assumere "molte forme", quindi questo meccanismo viene chiamato  **polimorfismo**.  
+Tali oggetti possono anche essere di sottoclassi diverse cioè possono assumere "molte forme", quindi questo meccanismo viene chiamato **polimorfismo**.
 
 #### Vantaggi e Svantaggi
 
@@ -949,6 +953,7 @@ Tuttavia, l'uso del polimorfismo diminuisce:
 #### Binding Dinamico
 
 Quando si chiama un metodo su un oggetto, non è detto che il metodo effettivamente eseguioo sia stato dichiarato nella classe a cui appartiene tale oggetto: in caso contrario viene eseguiro il metodo con la stessa segnatura dichiarato nella superclasse vicina;
+
 > _Osservazione_: La segnatura non comprende il tipo restituito, quindi esso non viene considerato per la scelta del metodo da eseguire
 
 In generale, non è solo noto al momento della compilazione quale metodo verrà eseguito: il collegamento (binding) tra il nome del metodo e il metodo effettivamente eseguito è "tardivo" (late), in quanto viene determinato solo durante l'esevuzione, in base al tipo di oggetto puntato effettivamente dal riferimento al momento della chiamata.
@@ -963,7 +968,7 @@ Un riferimento a un oggetto di una sottoclasse può essere convertito _implicita
 - ridefiniti nella sottoclasse.
 
 ma _non_ quelli aggiunti nella sottoclasse, non esistenti nella superclasse.  
-Infatti, il compilatore non può garantire che un riferimento a un oggetto della superclasse punti concretamente a un oggetto della sottoclasse, quindi i dati/metodi aggiunti in quest'ultima potrebbero non essere disponibili.  
+Infatti, il compilatore non può garantire che un riferimento a un oggetto della superclasse punti concretamente a un oggetto della sottoclasse, quindi i dati/metodi aggiunti in quest'ultima potrebbero non essere disponibili.
 
 ```java
 SottoClasse rifSotto = new SottoClasse();
@@ -979,7 +984,7 @@ rifSopra.metodoAggiunto();
 // Errore in compilazione
 ```
 
-Con una conversione di tipo esplicita (cast), si ottengono gli stessi risultati.  
+Con una conversione di tipo esplicita (cast), si ottengono gli stessi risultati.
 
 ```java
 SottoClasse rifSotto = new SottoClasse();
@@ -996,7 +1001,7 @@ SottoClasse rifSotto = new SottoClasse();
 
 #### Da superclasse a sottoclasse
 
-Un riferimento a un oggetto di una superclasse può essere convertito _solo esplicitamente_ (cast) a un riferimento a un oggetto di una delle sue sottoclassi.  
+Un riferimento a un oggetto di una superclasse può essere convertito _solo esplicitamente_ (cast) a un riferimento a un oggetto di una delle sue sottoclassi.
 
 ```java
 SuperClasse rifSopra = new SottoClasse();
@@ -1018,7 +1023,7 @@ rifSotto = (SottoClasse)rifSopra;
 // OK: eseguito il metodo aggiunto in SottoClasse
 ```
 
-Se l'oggetto a cui punta il riferimento non è effettivamente un'istanza di tale sottoclasse, viene sollevata un'_eccezione in fase di esecuzione_.  
+Se l'oggetto a cui punta il riferimento non è effettivamente un'istanza di tale sottoclasse, viene sollevata un'_eccezione in fase di esecuzione_.
 
 ```java
 SuperClasse rifSopra = new SuperClasse();
@@ -1037,7 +1042,7 @@ rifSotto = (SottoClasse)rifSopra;
 // Eccezione in esecuzione
 ```
 
-Prima di effettuare una converione di questo tipo, bisogna quinfi essere sicuri che l'oggetto sia effettivamente un'istanza della sottoclasse. A tale scopo, si può utilizzare per esempio l'operatore ```istanceof```:
+Prima di effettuare una converione di questo tipo, bisogna quinfi essere sicuri che l'oggetto sia effettivamente un'istanza della sottoclasse. A tale scopo, si può utilizzare per esempio l'operatore `istanceof` :
 
 ```java
 // ...
@@ -1055,7 +1060,7 @@ if(rifSopra istanceof Sottoclasse) {
 
 L'obbiettivo dell'attività del design è produrre l'**architettura** (o progetto) del software.  
 La progettazione richiede più passaggi: in genere si procede da una visione ad alto livello (high-level design o progettazione in grande) verso il basso, fino a considerare le singole unità (low-level design o progettazione in piccolo).  
-In particolare l'architettura di un sistema di software riguarda l'high-level design: essa _definisce il sistema_ in termini di **componenti computazionali** (moduli) e **intersezioni** tra di essi.  
+In particolare l'architettura di un sistema di software riguarda l'high-level design: essa _definisce il sistema_ in termini di **componenti computazionali** (moduli) e **intersezioni** tra di essi.
 
 ### Componenti e Interazioni
 
@@ -1085,9 +1090,9 @@ In architetture diverse, gli stessi componenti (ad esempio client, server, datab
 
 #### Confronto tra due livelli
 
-Come analogia, al livello dei meccanismi la corrozzeria di un'auto è vista come un sistema composto da portiere, cofano, ecc., mentre lo stile riguarda la differenza tra una coupè, una station wagon, ecc.  
+Come analogia, al livello dei meccanismi la corrozzeria di un'auto è vista come un sistema composto da portiere, cofano, ecc., mentre lo stile riguarda la differenza tra una coupè, una station wagon, ecc.
 
-Il livello dei meccanismi e quello degli stili sono due _punti di vista_ diversi relativi alla stessa realtà. Per questo la disntinzione non è sempre chiara.  
+Il livello dei meccanismi e quello degli stili sono due _punti di vista_ diversi relativi alla stessa realtà. Per questo la disntinzione non è sempre chiara.
 
 Questi due livelli hanno alcune caratteristiche in comune:
 
@@ -1097,7 +1102,7 @@ Questi due livelli hanno alcune caratteristiche in comune:
 ### Moduli e servizi
 
 Un **modulo** è una parte di un sistema che fornisce un insieme di servizi ad altri moduli.  
-I **servizi** sono elementi computazionali che possono essere usati da altri moduli.  
+I **servizi** sono elementi computazionali che possono essere usati da altri moduli.
 
 L'insieme dei servizi forniti (_esportati_) da un modulo costituisce l'interfaccia del modulo stesso.
 
@@ -1109,20 +1114,21 @@ L'insieme dei servizi forniti (_esportati_) da un modulo costituisce l'interfacc
   - il più grande possibile, per mettere a disposizione tutte le funzionalità necessarie;
   - il più piccola possibile, per esporre i segreti del modulo.
 
-Bisogna quindi trovare un equilibrio.  
+Bisogna quindi trovare un equilibrio.
 
 ### Relazioni
 
 Le principali relazioni tra moduli sono:
-**USES**: un modulo usa i servizi esportati da un altro;  
-**IS_COMPONENT_OF**: descrive l'aggregazione di moduli in altri moduli di livello più alto (perchè i moduli sono raramente unitari);  
-**INHERITS_FROM**: per i sistemi orientati agli oggetti.  
+**USES**: un modulo usa i servizi esportati da un altro;
+**IS_COMPONENT_OF**: descrive l'aggregazione di moduli in altri moduli di livello più alto (perchè i moduli sono raramente unitari);
+**INHERITS_FROM**: per i sistemi orientati agli oggetti.
 
 #### Definizione e proprietà matematiche
 
-Sia 
-$$ 
-S = { M1, M2, ... , Mn } 
+Sia
+
+$$
+S = { M1, M2, ... , Mn }
 $$
 
 ## casi particolari esercizi test e analisi
@@ -1153,3 +1159,274 @@ Build (if possible) three sets of test data in such a way as to cover o all stat
 Per dataset si intende anche un insieme di più tuple di input diversi che unendo le coperture vanno a verificare il punto in esame.
 
 Ad esempio se ho dataset A che copre tutti gli statement ma non tutti i branch, B che copre i branch che non copre A e C che copre le condizioni non coperte da A e B in risposta alla prima richiesta posso usare A, per la seconda {A, B}, per la terza {A, B, C}.
+
+## Esercizi
+
+> Statements sono le righe di codice
+> branches come ad esempio in un if ce ne sono due , in un ciclo if, for solo uno
+
+For each of following methods
+
+- determine all definition-use-anullment expression;
+- build (if possible) three sets of test data in such a way to cover
+  - all statements, but not all branches
+  - all branches, but not all conditions
+  - all condition
+
+Prendere in considerazione una variabile alla volta e analizzarle
+
+### Esercizio 1
+
+```java
+public static int factorial (int n){
+    int f = 1;
+    for (int i = 1; i <= n; i++ ){
+        f = f * i;
+    }
+    return f;
+}
+```
+
+1. `int n`
+   1. du(u)\*
+2. `int i`
+   1. du(uudu)\*
+3. `int f`
+   1. d(ud)\*u
+
+- **Impossibile** perchè non c'è `if()`
+- **Impossibile** perchè non c'è `if()` (condizione composta)
+- **Possibile**
+  - input `n = 3`
+  - valore finale `n = 3`
+
+| Input | n   | Coverage                                           |
+| ----- | --- | -------------------------------------------------- |
+| A     | 3   | all statements and branches and conditions covered |
+
+> La stellina sta a definire il ciclo
+
+### Esercizio 2
+
+```java
+public static int fibonacci (int threshold) {
+    int first = 0, second = 1;
+
+    while(second < threshold) {
+        int sum = first + second;
+        first = second;
+        second = sum
+    }
+    return first;
+}
+```
+
+1. `int threshold`
+   1. du(u)\*
+2. `int first`
+   1. d(ud)\*u
+3. `int second`
+   1. d(uudu)\*
+4. `int sum`
+   1. (du)\*
+
+- **Impossibile** perchè non c'è (`if()` senza `else`);
+- **Impossibile** perchè non c'è (`if()` con una condizione composta;
+- Si può fare
+
+| Input | threshold | Coverage                                           |
+| ----- | --------- | -------------------------------------------------- |
+| A     | 3         | all statements and branches and conditions covered |
+
+### Esercizio 3
+
+```java
+public static boolean isSorted(int [] array) {
+    for(int i = 0; i < array.length-1 ; i ++) {
+        if( array [i] > array[i+1]){
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+1. `int [] array`
+   - du(uu()u)\*
+2. `int i`
+   - du(uuudu)\*
+
+- **Possibile** {A, B}
+- **Impossibile**
+- **Possibile** {A, C}
+
+| Input | array     | Coverage                           |
+| ----- | --------- | ---------------------------------- |
+| A     | {5, 1}    | all statements covered except true |
+| B     | {4}       | Statement return true; covered     |
+| C     | {1, 5, 3} | "if-else" branch covered           |
+
+### Esercizio 4
+
+```java
+public static void sort (int array []) {
+    int i, j, temp;
+    for(i = 1; i < array.legth; i++) {
+        for(j = 0; j < array.lenth - i; j ++) {
+            if(array[j] > array[j + 1]){
+                temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+}
+```
+
+1. `int [] array;`
+   1. du(u(uu(uudd+E)u)\*u)\*
+2. `int i`
+   1. adu(u(u)\*udu)\*
+3. `int j`
+   1. a(du(uu(uuuu+E)udu)\*)\*
+4. `int temp`
+   1. a(((du+E))\*)\*
+
+- **Possibile** { A }
+- **Impossibile**
+- **Possibile** {A, B}
+
+| Input | array      | Coverage       |
+| ----- | ---------- | -------------- |
+| A     | { 5, 1 }   | all statements |
+| B     | { 1, 5, 3} | all branches   |
+
+### Esercizio 5
+
+```java
+public static int makeNotDecreasing( int number ) {
+ int previousDigit = 9;
+ int powerOfTen = 1;
+ int result = 0;
+
+ while( number != 0 ) {
+    int currentDigit = number % 10;
+    if( currentDigit >= previousDigit )
+        {
+            currentDigit = previousDigit;
+    }
+    result = result + currentDigit * powerOfTen;
+    powerOfTen = powerOfTen * 10;
+    previousDigit = currentDigit;
+    number = number/10;
+ }
+
+ return result;
+}
+```
+
+1. `int number`
+   1. du(uudu)\*
+2. `int previousDigit`
+   1. d(u(u+E)d)\*
+3. `int powerOfTen`
+   1. d(uud)\*
+4. `int result`
+   1. d(ud)\*u
+5. `int currentDigit`
+   1. (du(d+E)uu)\*
+
+- **Possibile** { B }
+- **Impossibile**
+- **Possibile** {A}
+
+| Input | number | covered                                       |
+| ----- | ------ | --------------------------------------------- |
+| A     | 9      | all branches all condition and all statements |
+| B     | 8      | all statements but not all branches            |
+| A3    | B3     | C3                                            |
+
+### Esercizio 6
+
+```java
+public static boolean isIncreasing( int number ) {
+    int previousDigit = 9;
+    while( number != 0 ){
+        int currentDigit = number % 10;
+        if( currentDigit > previousDigit ){
+            return false;
+        }
+    previousDigit = currentDigit;
+    number = number/10;
+    }
+ return true;
+ }
+```
+
+1. `int number`
+   1. du(uudu)\*
+2. `int previousDigit`
+   1. d(ud)\*
+3. `int currentDigit`
+   1. (duu)\*
+
+- **Impossibile**
+- **Impossibile**
+- **Possibile**
+
+### Esercizio 7
+
+```java
+public static int method( int x, int y, int z ){
+    int a = 2;
+    if( a < x && a > y ){
+        x = x - a;
+        z = x + y;
+        while ( a + y < x ){
+            a = z + y;
+        }
+    }
+    return( ++a );
+ }
+```
+
+1. `int x`
+   1. du(uduu(u)\*+E)
+2. `int y`
+   1. du(uu(uu)\*+E)
+3. `int z`
+   1. d(d(u)\*+E)
+4. `int a`
+   1. duu(uu(du)\*+E)udu
+
+- **Possibile**
+- **Possibile**
+- **Possibile**
+
+### Esercizio 8
+
+```java
+public static int arrayProducts( int array[] ){
+    int product = 1;
+    for( int i = 0; i < (array.length+1)/2; i++ ){ // i = i + 1
+        int currentSum = array[i]+array[array.length-1-i];
+        if( currentSum != 0 && currentSum%4 != 1 ){
+            product *= currentSum; // product = product * currentSum
+            }
+    }
+ return product;
+ }
+```
+
+1. `int array`
+   1. du(uuuu)\*
+2. `int product`
+   1. d((ud+E))\*u
+3. `int i`
+   1. du(uuudu)\*
+4. `int currentSum`
+   1. (duu(u+E))\*
+
+- **Possibile**
+- **Possibile**
+- **Possibile**
