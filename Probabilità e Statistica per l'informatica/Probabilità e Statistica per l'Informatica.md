@@ -79,4 +79,7 @@ La probabilità dell'evento A relativo a Ω è:
             #Ω  
 ```
 
-## Lezione 2
+##  DOMANDE DI TEORIA
+
+- enuncia il teorema di bayes
+- teorema della probabilità totali
