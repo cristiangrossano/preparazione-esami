@@ -56,11 +56,11 @@ Il **Kernel level** e **User level** communicano tramite **_system call interfac
 Esempio.
 Per la riga di codice:
 
-```java
+```c++
 system.out.println("ciao")
 ```
 
-Non abbiamo Java che 'magicamente' scrive "ciao", bensì, per eseguire questa azione deve richiedere l'intervento del Sistema Operativo tramite **_system call interface_**.
+Non abbiamo c++ che 'magicamente' scrive "ciao", bensì, per eseguire questa azione deve richiedere l'intervento del Sistema Operativo tramite **_system call interface_**.
 Ovviamente per questo intervento il calcolatore passerà in modalità kernel.
 
 ---
@@ -80,8 +80,8 @@ Le istruzioni che utilizzano il sistema operativo vengono precedute dal simbolo 
 
 - **_$JOB_** = Inizio del processo;
 - **_$FORTRAN_** per compilare il codice;
-  > ovviamente si usa questo comando se il linguaggio viene scritto in FORTRAN, un po' come quando utilizziamo il comando javac, per
-  > compilare java.
+  > ovviamente si usa questo comando se il linguaggio viene scritto in FORTRAN, un po' come quando utilizziamo il comando c++c, per
+  > compilare c++.
 - **_$LOAD_** per caricare l'eseguibile in RAM;
 - **_$RUN_** per eseguire;
 - **_$END_** fine del processo.
@@ -174,12 +174,12 @@ Ovviamente il pooling **_è più efficace_** si evita di avere troppi registri n
 Per massimizzarlo bisogna creare le condizioni affinchè tutti i programmi vadano in parallelo.
 Lo scheduler di conseguenza deve privileggiare i programmi che fanno uno di I/O, in modo da spostarsi da un JOB ad un altro ogni volta che viene rischiesta una interazione di lettura/scrittura.
 
-**_Con i sistemi multiprogrammati vengono introdotti due concetti:_**  
+**_Con i sistemi multiprogrammati vengono introdotti due concetti:_**
 
 1. _program priority_, ad ogni programma viene assegnata una priorità;
 2. _preemption_, il processore viene tolto forzatatamente al processo che lo stava utilizzando;
-    1. Se è in esecuzione un programma di CPU BOUND e un processo di I/O BOUND ha finito la sua operazione di input/outout allora il processore tornerà forzatamente a questo
-    2. **_Viene fatto per migliorare il throughput_**
+   1. Se è in esecuzione un programma di CPU BOUND e un processo di I/O BOUND ha finito la sua operazione di input/outout allora il processore tornerà forzatamente a questo
+   2. **_Viene fatto per migliorare il throughput_**
 
 In questo periodo storico nascono gli **_hard disk_**, quindi non vi è più la necessità di utilizzare i natsri di lettura.
 Questo concede alla multiprogrammazione di arricchirsi con lo **_spooling_**.
@@ -187,7 +187,7 @@ I programmi quindi sono caricati in memoria, nel momento in cui un job termina, 
 
 Nasce il concetto di avere più terminali collegati allo stesso calcolatore.
 Diventa estremamente importante dare ad ogni soggetto che utilizza un terminale l'idea di star interagendo continuamente con il calcolatore.
-Nasce di conseguenza il concetto di **time-sharing**, ogni tot tempo il processore passa da  un terminale ad un altro.
+Nasce di conseguenza il concetto di **time-sharing**, ogni tot tempo il processore passa da un terminale ad un altro.
 
 **Multiprogrammazione:** priorità, preemption throughput.
 
@@ -205,7 +205,7 @@ Quindi ad esempio avere un context switch frequente garantisce maggiore interatt
 
 A partire dagli anni '80 si diffondono i PC.  
 I computer diventano quindi personali (Personal Computer) quindi bisogna renderne più facile l'utilizzo.  
-Per questo vengono introdotte le **GUI**.  
+Per questo vengono introdotte le **GUI**.
 
 #### Richiami di architettura e system call
 
@@ -238,10 +238,10 @@ I principali registri della CPU sono:
   - **_Condition Mode_** (CC): codici di condizione impostati da istruzioni di confronto/codici di proprietà di operazioni aritmetiche
   - **_Interruct Mask_** (IM): bit usati per gestire interrupt
   - **_Interrupt Code_** (IC): bit usati per gestire interrupt
-- **_Memory Protection Information_** (MPI): informazioni sulla porzione di memoria accessibile.  
+- **_Memory Protection Information_** (MPI): informazioni sulla porzione di memoria accessibile.
 
 I primi due registri contengono indirizzi di memoria.  
-I registri di Upper e Lower Bound sono parte del **PSW**.  
+I registri di Upper e Lower Bound sono parte del **PSW**.
 
 Le istruzioni privilegiate sono quelle che permettono di nodificare i valori del registro PSW.  
 Quest'ultime sono eseguibili solo in modalità kernel.  
@@ -265,7 +265,7 @@ Viene eseguito da un segnale hardware, sulla linea del BUS.
 Il segnale può essere inviato dal programma in esecuzione oppure dal clock/controller di un dispositivo.
 
 **Interruzioni HARDWARE**  
-Si tratta di eventi asincroni rispetto al programma in esecuzione.  
+Si tratta di eventi asincroni rispetto al programma in esecuzione.
 
 - interruzioni I/O (utilizzate per notificare qualcosa al processore)
 - interruzioni timer (segnale inviato dal clock quando il tempo messo a disposizione al programma termina)
@@ -275,20 +275,20 @@ Si tratta di eventi asincroni rispetto al programma in esecuzione.
 
 Nel momento in cui si verifica una interrupt **il processore** non esegue più come istruzione successiva quella localizzata nel PC ma va ad eseguire la prima del interrupt handler.  
 Quando il sistema operativo ha svolto il suo compito allora il programma che era in esecuzione prima potrà ripartire dall’istruzione che si trova nel pc.  
-**Nell’interrupt handler si trova che cosa bisogna fare per gestire l’interruzione.**  
+**Nell’interrupt handler si trova che cosa bisogna fare per gestire l’interruzione.**
 
-Può capitare che mentre è in esecuzione l’interrupt handler si verifichi un’altra interrupt;  
+Può capitare che mentre è in esecuzione l’interrupt handler si verifichi un’altra interrupt;
 
 succede la stessa identica cosa:
 Nel caso di salto tra i due handlers non c’è il passaggio da user a kernel dato che siamo già in modalità kernel.
-Quando si torna ai programmi in modalità user sarà lo scheduler a decidere se quando si è verificata la interrupt era in esecuzione word non è detto che ricomincerà l’esecuzione di word.  
+Quando si torna ai programmi in modalità user sarà lo scheduler a decidere se quando si è verificata la interrupt era in esecuzione word non è detto che ricomincerà l’esecuzione di word.
 
 **Gestione interrupt a cascata.**
 
 Gli interrupt vengono organizzati in classi di priorità
 
 - quando si gestisce una certa richiesta di interrupt, tutte quelle della stessa classe o di classi inferiori vengono ignorate. Tali richieste (quelle ignorate) rimangono pendenti.
-  
+
 **In che modo vengono ignorati gli interrupt con priorità minore?**  
 Tramite l'**IM** (interrupt mask).  
 Questa sequenza di bit dice quali interruzioni sono trattabili (enabled) e quali invece non lo sono (Masked Off).  
@@ -297,7 +297,7 @@ Quando il programma gira in modalità user tutti gli interrupt sono abilitati, i
 Per ogni **classe di interrupt** si trova un **interrupt vector**, situato nella locazione di memoria riservata al SO.  
 Il vettore contiene l'indirizzo alla prima istruzione della interruzione relativa.  
 Ovviamente quando questo indirizzo viene caricato sul PC, allora la prossima istruzione eseguita sarà proprio quella.  
-Sempre nell'interrupt handler **sono contenuti** i valori che devono prendere i registri della PSW.  
+Sempre nell'interrupt handler **sono contenuti** i valori che devono prendere i registri della PSW.
 
 Per ogni classe di interrupt si ha una **SRIA** che serve a memorizzare i valori seguenti nei registri:
 
@@ -310,6 +310,7 @@ Per ogni classe di interrupt si ha una **SRIA** che serve a memorizzare i valori
 Viene inviato un segnale via hardware.  
 Questo segnale importa l'**IC** della **PSW** che serve a comunicare al SO, le cause dell'interruzione.  
 I valori dei registri dei PC, SP, PSW relativi al programma P vengono salvati nella **SRIA**.
+
 > Vengono salvati i valori che avevano i vari registri, così una volta terminata l'interrupt si torna alla normale esecuzione
 
 I registri PC e PSW vengono quindi impostati in base a ciò che veniva trasmesso deel relativo interrupt vector.  
@@ -322,7 +323,7 @@ Con registri generali si intendono tutti quelli che non devono essere salvati vi
 **Una volta fatto questo valori del programma P sono stati salvati.**  
 Successivamente l'handler esegue il codice apposito per gestire l'interruzione.  
 Il codice sfrutta il valore dell'IC.  
-Terminate le sue operazioni **salta allo scheduler**, che selezionerà il programma P', dato che non è detto che **P = P'.**  
+Terminate le sue operazioni **salta allo scheduler**, che selezionerà il programma P', dato che non è detto che **P = P'.**
 
 **Cosa fa lo scheduler dopo che ha selezionato P'?**
 
@@ -339,35 +340,37 @@ Il **controller** è una componente elettronica che communica con il processore 
 Il controller gestisce i dispositivi.  
 **Può gestire più dispositivi contemporaneamente.**  
 L'interfaccia tra CPU e controller viene usata dai componenti del SO. (**i driver**).  
-I'interfaccia contiene:  
+I'interfaccia contiene:
 
 - porte i/p, dette anche registri di controllo
-   > usati dalla dalla CPU per communicare con il controller (dare/ricevere informazioni)
+
+  > usati dalla dalla CPU per communicare con il controller (dare/ricevere informazioni)
 
 - buffer
-   > serve a memorizzaare i dati durante le operazioni di I/O
+  > serve a memorizzaare i dati durante le operazioni di I/O
 
-Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:  
+Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:
 
 1. Porte di I/O gestite con istruzioni macchina
 
-  > le communicazioni sono di due tipi:
-  >
-  > dalle porte di I/O ai registri del processore e viceversa.
-  > Questre istruzioni devono essere **privilegiate**, per impedire che in modalità user si riesca ad accedere ai dispositivi.
+> le communicazioni sono di due tipi:
+>
+> dalle porte di I/O ai registri del processore e viceversa.
+> Questre istruzioni devono essere **privilegiate**, per impedire che in modalità user si riesca ad accedere ai dispositivi.
 
 2. Memory Mapped I/O
-    > Ad ogni porta I/O viene assegnato un indirizzo di memoria, non servono istruzioni ad hoc.
-    > Gli indirizzi non sono visibili dai programmi che dovranno invocare il SO per fare le oerazioni di I/O.
-    >
-    > In questa soluzione i driver possono essere scritti in **C**.
+   > Ad ogni porta I/O viene assegnato un indirizzo di memoria, non servono istruzioni ad hoc.
+   > Gli indirizzi non sono visibili dai programmi che dovranno invocare il SO per fare le oerazioni di I/O.
+   >
+   > In questa soluzione i driver possono essere scritti in **C**.
 
-**Il modo con cui avvengono le communicazioni tra CPU e dispositivi non è univoco, cu sono 3 metodi diversi.**.  
+**Il modo con cui avvengono le communicazioni tra CPU e dispositivi non è univoco, cu sono 3 metodi diversi.**.
+
 > Le prime due hanno dei problemi, sono obsolete, ma conoscerle aiuta nel comprendere il terzo metodo.
 
 **Soluzione 1 - Programmed I/O.**
 
-```java
+```c++
   for (i = 0; i < n; i++){
     while(device_status_reg != READY){
       //busy waiting
@@ -378,15 +381,15 @@ Ci sono due possibili soluzioni per communicazioni tra CPU e porte I/O:
 
 Il driver del dispositivo tramite il **device status register** vede se il dispositivo è pronto ad eseguire una nuova operazione oppure no.  
 Questo stato è definito da dei BIT.  
-Il cidce mostra che quando il dispositivo è 'ready' allora nel buffer del dispositivo verranno trasferiti byte di b, **uno alla volta.**  
+Il cidce mostra che quando il dispositivo è 'ready' allora nel buffer del dispositivo verranno trasferiti byte di b, **uno alla volta.**
 
-**Il grande problema di questo metodo è che fino a quando il dispositivo è occupato il processore è inutilizzato. Non si sfruttano gli interrupt.**  
+**Il grande problema di questo metodo è che fino a quando il dispositivo è occupato il processore è inutilizzato. Non si sfruttano gli interrupt.**
 
 Con **busy waiting** si intende il periodo di attesa in cui il processore viene utilizzato per aspettare.
 
-**Soluzione 2 - Interrupt Driven I/O.**  
+**Soluzione 2 - Interrupt Driven I/O.**
 
-```java
+```c++
 while(device_status_reg != READY){
   // busy waiting solo all'inizio
 }
@@ -399,7 +402,7 @@ scheduler() // P lascia la CPU, la riotterrà a operazione conclusa
 > Nel motodo precedente il **busy waiting** c'era sempre, anche tra un Byte e l'altro (da b[i] a b[i + 1])  
 > Adesso c'è solo nella prima interazione, poi non è più presente.
 
-```java
+```c++
 if(c==n){
   unblock_user(); // il programma P può ripartire
 } else {
@@ -413,4 +416,138 @@ return_from_interrupt()
 Questo è il codice eseguito dall'interrupt handler.  
 Quando il trasferimento di ogni byte viene controllato, il controllore manda un interrupt.  
 In questo momento ricominciano le iterazioni del handleer che tra il trasferimento di un byte e quello successivo permette di far andare avanti un programma.  
-Il processo è decisamente troppo macchinoso, per **n byte** ci sono **n interrupt**.  
+Il processo è decisamente troppo macchinoso, per **n byte** ci sono **n interrupt**.
+
+**Soluzione 3**
+
+L'architettura prevede un controllore **Direct Memory Access (DMA)**, capace di accedere direttamente alla memoria e di lavorare in parallelo con la CPU.  
+Il processore dice al controllore del DMA di trasferire i dati.  
+Il controllore del disco manderà sempre una interruzione per ogni byte, questa volta però la interrupt arrivano al controllore del DMA.  
+Il controllore del DMA farà praticamete lo stesso che faceva l'handler nella soluzione 2.  
+**Quando tutto il trasferimento termina allora il controllore del DMA manderà unn interrupt al processore.**
+
+```c++
+set_up_DMA_CONTROLLER(); // IMPOSTO REGISTRI DEL CONTROLLER
+scheduler(); // P lascio la CPU, la riotterrò ad operazione conclusa
+```
+
+Si usano le porte di I/O del cntrollore DMA per dirgli che cosa fare (le istruzioni vengono salvate nelle porte).
+
+Lo scheduler schedula un diagramma diverso che verrà eseguito dalla CPU in parallelo alle operazioni eseguite dal DMA.
+
+### Program Interrupt
+
+Oltre agli hardware interrupt, esistono due tipi di program interrupt:
+
+- eccezioni;
+- software interrupt.
+
+Eccezioni:
+
+- eccezioni aritmetiche;
+- eccezioni di indirizzamento;
+- violazioni delle protezioni di memoria.
+
+**Contrariamente agli interrupt hardware, le eccezioni non sono eventi asincroni rispetto alla esecuzione del programma.**
+Sono eventi causati da situazione anomale verificatosi all'interno del programma. devono essere trattate dal SO.  
+Può essere che il SO imponga la terminazione immediata del programma.
+
+**Software Interrupt (trap)**  
+Sono causati da una istruzione apposita, chiamata trap.  
+Sono interventi usati per chiedere esplicitamente l'intervento del SO.
+
+> **NOTA BENE** > **TRAP** = Istruzione linguaggio macchina;
+> **trap** = Software interrupt instruction.
+
+L'istruzione TRAP è l'unica che permette di chiedere l'intervento del sistema operativo, per questo motivo sono necessario definire, in qualche modo, che tipo di servizio si vuole richiedere.
+
+- la TRAP ha un **parametro** che specifica il tipo di intervento richiesto (individua il servizio). Può essere passato in due modi:
+  - come operando della TRAP ( se quest'ultima pretende operandi);
+  - ponendolo sullo stack.
+
+Gerarchia:
+
+1. Machine Error;
+2. Clock Interrupt;
+3. Disk Interrupt;
+4. Fast Device Interrupt;
+5. Slow Device Interrupt;
+6. Exception;
+7. Trap.
+
+Le program iinterrupt hanno gerarchi inferiore rispetto alle hardware interrupt.
+
+Il vettore relativo alle program interruption è il Program Interrupt Vector che: (Fase 2):
+
+- contiene il riferimento al primo bit del relativo handler quindi **PC = aaa**;
+- sposta il bit nella modalità su kernel quindi **PM = 1**.
+
+L'interrupt handler (Fase 3):
+
+- salva il contenuto dei registri generali;
+- controllo l'IC per individuare il parametro;
+- esegue le sue funzioni;
+- invoca lo scheduler.
+
+Una **Systema Call** è una richiesta al sistema operativo effettuata da un programma.
+
+- le system call sono strumenti messi a disposizione dei programma per avvalersi dei servizi offerti dal SO;
+- vengono realizzate con la TRAP:
+  - per ogni parametro c'è una system call diversa. Se i bit del IC sono n, ci saranno 2^n system call.
+
+In corrispondenza ad ogni chiamata di sistema si ha una funzione di libreria (utilizzata dai linguaggi di programmazione).
+Le funzioni di libreria invocano la TRAP.
+
+## PROCESSI
+
+### Memory Layout dei programmi
+
+L'esecuzione di un programma necessita di tre aree di memoria, tradizionalmente dette **regioni**:
+
+- area di testo
+  - contiene il testo del programma in un linguaggio macchina, non è modificabile dall'esecuzione del programma;
+- area di dati:
+  - contiene le variabili globali del programma, quelle condivide da tutte le procedure (metodi). I valori variano in un contenuto e in dimensione;
+- area di stack
+  - contiene i record di attivazione delle procedure già chiamate, ma non ancora terminate. Anche qui il contenuto è varibile sia in contenuto sia in dimensione
+
+Per le strutture dati dinamiche delle procedure si usa una particolare dell'area dati, detta **area heap**.
+
+> In java i valori di un array vengono memorizzati proprio in questa area.
+
+**Il codice di un programma contiene indirizzi di memoria che si riferiscono a ognuna di queste zone.**
+Gli indirizzi sono **virtuali**, sarà la MMU a tradurli nei veri indirizzi.
+
+La memoria virtuale è resa possibile da un registro della architettura, il **Relocatione Register (RR)**.
+Questo permette alla MMU di tradurre gli indirizzi giusti.
+Supponendo che io voglia mettere dei dati nell'indirizzo 1 e questo occupato.
+Il SO non mi dice che è occupato.
+Cerca un indirizzo libero e memorizza il dato li.
+Nel Relocation Register viene salvato di quanto è stato spostato l'indirizzo.
+Se da 1 l'indirizzo passa a a1001 allora il RR avrà valore 1000.
+Quindi nella memoria virtuale il registro sarà 1 mentre nella memoria effettiva 1001.
+
+### Definizione Processo
+
+**Un processo è un'istanza di un programma in esecuzione.**
+Ci possono essere più processi relativi allo stesso programmma. Possono infatti esserci anche più esecuzioni in contemporanea dello stesso programma.
+E' importante che le diverse esecuzioni non si diano fastidio a vicenda, per questo è necessario che ogni processo possa modificare/leggere solo le sue locazioni di memoria.
+
+Il programma in se è quindi una entità passiva, non esegue nessuna azione.
+L'esecuzione del programma, chiamata processo, **concretizza le azioni** del programma.
+**Le entità schedulate dal SO, sono perciò processi, non i programmi.**
+Anche le aree di memoria viste in precedenza sono associate al **programma in esecuzione** quindi ad un processo.
+
+**Un processo consiste delle seguenti componenti:**
+
+- stato della CPU;
+- Area di Testo;
+- Area Dati;
+- Area di Stack;
+- Risorse Fisiche (hardware) e logiche assegnate al processo.
+
+### Parallelismo e Concorrenza
+
+In generale si dice che due eventi sono paralleli se occorrono nello stesso momento.
+CHiaramente disponendo di una macchina con solo un processore non è possibile che i processi associati a questi programmi vengano eseguiti in parallelo da che un processore può eseguire una sola istruzione per volta.
+**La concorrenza è l'illusione del parallelismo**
